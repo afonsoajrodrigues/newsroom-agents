@@ -19,4 +19,4 @@ Data prep: <script or steps that produced data/>
 Built by: <name>, <date>
 Evidence log: <E-ids>
 ```
-5. Print the tree and remind: replace `DATA` in `index.html` with the real rows, run the pre-publication checklist from `viz-standards` before handing over, and check it with `node "${CLAUDE_PLUGIN_ROOT}/scripts/render-check.mjs" graphics/$0/index.html`.
+5. Print the tree and remind: replace `DATA` in `index.html` with the real rows, run the pre-publication checklist from `viz-standards` before handing over, check it with `node "${CLAUDE_PLUGIN_ROOT}/scripts/render-check.mjs" graphics/$0/index.html`, and export the static version with `--svg graphics/$0/grafico.svg` (or `mapa.svg`) when it passes.

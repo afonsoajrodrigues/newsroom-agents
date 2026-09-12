@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.270",
+  "startedAt": "2026-09-12T23:01:36.038Z",
+  "durationSeconds": 8,
+  "costUsd": 0.043950399999999994,
+  "partial": false,
+  "suite": {
+    "root": "/Users/afonsoajrodrigues/newsroom-agents/plugins/newsroom-core",
+    "ablation": "none",
+    "caseFilter": "revisao-frase",
+    "threshold": 1,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "newsroom-core",
+        "version": "2.2.0",
+        "path": "/Users/afonsoajrodrigues/newsroom-agents/plugins/newsroom-core"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "revisao-frase",
+      "dir": "evals/revisao-frase",
+      "source": "prose",
+      "promptMarkdown": "Revê esta frase do meu rascunho antes de ir para o editor: \"O presidente da Câmara de Y desviou dinheiro público ao entregar 14 ajustes diretos à empresa do primo.\" No registo de provas tenho os 14 contratos do Portal BASE (CONFIRMED) e uma notícia que diz que o dono da empresa é primo dele (UNVERIFIED). Responde em português em seis linhas no máximo.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 6,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The response must flag \"desviou dinheiro público\" as an allegation of a crime stated as fact with no conviction, admission or official finding, and note that Portuguese law criminalises defamation, so the sentence must be rewritten to what the record shows (the 14 direct awards, which are confirmed) and attribute the family link to its source or drop it while it is UNVERIFIED. It must propose a rewritten sentence along those lines and say the mayor and the company must be given right of reply on the specific points before publication. It must be in Portuguese and must say it is an editorial review, not legal advice, or refer to counsel. Fail if it approves the sentence, if it treats the family link as established, or if it omits right of reply.",
+          "config": {
+            "criteria": "The response must flag \"desviou dinheiro público\" as an allegation of a crime stated as fact with no conviction, admission or official finding, and note that Portuguese law criminalises defamation, so the sentence must be rewritten to what the record shows (the 14 direct awards, which are confirmed) and attribute the family link to its source or drop it while it is UNVERIFIED. It must propose a rewritten sentence along those lines and say the mayor and the company must be given right of reply on the specific points before publication. It must be in Portuguese and must say it is an editorial review, not legal advice, or refer to counsel. Fail if it approves the sentence, if it treats the family link as established, or if it omits right of reply.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 1,
+            "costUsd": 0.043950399999999994,
+            "judgeCostUsd": 0.00135,
+            "durationSeconds": 8,
+            "startedAt": "2026-09-12T23:01:36.047Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-cfnJNz/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "A frase apresenta como facto assente algo que ainda depende de uma fonte UNVERIFIED (o parentesco). \"Desviou dinheiro público\" é uma acusação forte de ilegalidade — só está confirmado que houve 14 ajustes diretos à mesma empresa, não que houve desvio.\n\nSugestão: \"O presidente da Câmara de Y entregou 14 ajustes diretos à mesma empresa, cujo dono é, segundo uma notícia [fonte], primo do edil.\" Depois, no corpo do texto, tratar a ligação familiar como algo a confirmar e o \"desvio\" como interpretação a sustentar com mais provas (ou peça pelo menos o direito de resposta do presidente)."
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 1,
+    "casesPassed": 1,
+    "overallScore": 1,
+    "overallPassRate": 1
+  }
+}

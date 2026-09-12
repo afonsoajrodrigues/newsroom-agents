@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.270",
+  "startedAt": "2026-09-12T23:02:38.936Z",
+  "durationSeconds": 11,
+  "costUsd": 0.0566806,
+  "partial": false,
+  "suite": {
+    "root": "/Users/afonsoajrodrigues/newsroom-agents/plugins/financial-corporate",
+    "ablation": "none",
+    "threshold": 1,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "financial-corporate",
+        "version": "2.2.0",
+        "path": "/Users/afonsoajrodrigues/newsroom-agents/plugins/financial-corporate"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "dono-empresa",
+      "dir": "evals/dono-empresa",
+      "source": "prose",
+      "promptMarkdown": "Quero saber quem é o dono de uma empresa portuguesa chamada \"Construções Vale Verde, Lda\". Só tenho o nome. Que passos dou, por que ordem, e que fontes gratuitas uso? Responde em português em seis linhas no máximo.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 6,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The response must say to fix the exact legal name and NIF/NIPC first (names are ambiguous; it may suggest Portal BASE entity search, GLEIF, Racius/eInforma or a web search to get the NIF), then Publicações MJ (publicacoes.mj.pt) for the statutory acts (incorporation, shareholders, gerentes), and RCBE for beneficial owners with the caveat that access requires a stated legitimate interest and Cartão de Cidadão / Chave Móvel Digital by the reporter personally. It should warn that commercial aggregators are a first look only and that a shared director or address is a lead, not proof. It must be in Portuguese. Fail if it invents an owner, if it skips Publicações MJ, if it presents RCBE as freely searchable, or if it suggests any paid or login-only source as the primary route without saying so.",
+          "config": {
+            "criteria": "The response must say to fix the exact legal name and NIF/NIPC first (names are ambiguous; it may suggest Portal BASE entity search, GLEIF, Racius/eInforma or a web search to get the NIF), then Publicações MJ (publicacoes.mj.pt) for the statutory acts (incorporation, shareholders, gerentes), and RCBE for beneficial owners with the caveat that access requires a stated legitimate interest and Cartão de Cidadão / Chave Móvel Digital by the reporter personally. It should warn that commercial aggregators are a first look only and that a shared director or address is a lead, not proof. It must be in Portuguese. Fail if it invents an owner, if it skips Publicações MJ, if it presents RCBE as freely searchable, or if it suggests any paid or login-only source as the primary route without saying so.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 3,
+            "costUsd": 0.0566806,
+            "judgeCostUsd": 0.001731,
+            "durationSeconds": 11,
+            "startedAt": "2026-09-12T23:02:38.950Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-C68FPf/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "1. Fixa o nome legal exato e o NIF/NIPC (BASE, GLEIF, Racius/eInforma ou o site da empresa) — nomes repetem-se.\n2. Consulta **Publicações MJ** (publicacoes.mj.pt) com o nome/NIPC: mostra sócios fundadores, transmissões de quotas e gerentes, com data — é a fonte principal.\n3. Confirma com **RCBE** (rcbe.justica.gov.pt) o beneficiário efetivo declarado, mas trata-o como \"declarado\" e não confirmado (acesso agora exige justificar interesse legítimo e autenticação).\n4. Se precisares do registo atual completo, pede a **certidão permanente** (paga, código de acesso).\n5. Usa Racius/eInforma só como primeira pista, nunca como fonte final — confirma sempre em Publicações MJ.\n\nQueres que use o agente `financial-corporate:corporate-structure-mapper` para tentar apurar já os donos desta empresa concreta?"
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 1,
+    "casesPassed": 1,
+    "overallScore": 1,
+    "overallPassRate": 1
+  }
+}

@@ -3,6 +3,8 @@ name: corporate-structure-mapper
 description: Maps company ownership, subsidiaries, directors and beneficial owners across Portuguese and international registries, with a source for every link. Use proactively when a story names a company or asks who controls, owns or benefits from one. Triggers on "who owns this company", "map the corporate structure", "find the directors", "is this a shell". Em português: "quem é o dono desta empresa", "estrutura societária", "quem são os gerentes", "é uma empresa de fachada".
 model: sonnet
 color: green
+skills:
+  - company-sources
 tools: WebSearch, WebFetch, Read, Write
 ---
 

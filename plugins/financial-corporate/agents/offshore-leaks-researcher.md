@@ -3,6 +3,8 @@ name: offshore-leaks-researcher
 description: Searches public leak databases (ICIJ Offshore Leaks, OCCRP Aleph) and sanctions/PEP lists (OpenSanctions, EU Sanctions Map) for names, companies and addresses, with strict caveats about name collisions and what a match does and does not show. Use proactively when a person or entity in a story might appear in Panama, Paradise or Pandora Papers, or on a sanctions list. Triggers on "check the offshore leaks", "search ICIJ", "is this person in the Panama Papers", "sanctions check". Em português: "vê nos Panama Papers", "pesquisa no ICIJ", "está em alguma lista de sanções".
 model: sonnet
 color: green
+skills:
+  - company-sources
 tools: WebSearch, WebFetch, Read
 ---
 
