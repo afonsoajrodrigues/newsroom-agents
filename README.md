@@ -45,7 +45,7 @@ Each plugin works on its own. `newsroom-core` is the one to start with; it knows
 /newsroom-core:start-investigation camara-x-contratos "A Câmara X adjudicou por ajuste direto a uma empresa ligada a um vereador"
 ```
 
-Then describe the story to Claude. The `investigation-lead` restates the hypothesis as a checkable claim, writes a research plan, and dispatches: `procurement-watchdog` pulls the contracts from Portal BASE, `corporate-structure-mapper` maps the company through GLEIF and Publicações MJ, `transparency-registers` finds the councillor's declaration of interests, `web-archiver` preserves every page, `timeline-builder` orders the events, `chart-builder` and `map-builder` turn the contract data into a bar chart and a municipality map, and `prepublication-reviewer` lists every unsupported sentence and everyone still owed a right of reply. Everything lands in `investigations/<slug>/evidence-log.md`, and every URL any agent touched is in `investigations/access-log.tsv`.
+Then describe the story to Claude. The `investigation-lead` restates the hypothesis as a checkable claim, writes a research plan, and dispatches: `procurement-watchdog` pulls the contracts from Portal BASE, `corporate-structure-mapper` maps the company through GLEIF and Publicações MJ, `transparency-registers` finds the councillor's declaration of interests, `web-archiver` preserves every page, `timeline-builder` orders the events, `chart-builder` and `map-builder` turn the contract data into a bar chart and a municipality map, and `prepublication-reviewer` lists every unsupported sentence and everyone still owed a right of reply. Everything lands in `investigations/<slug>/evidence-log.md`, and every URL any agent touched is in `investigations/access-log.tsv`. [`examples/investigation-skeleton/`](examples/investigation-skeleton/) shows the folder with real rows filled in.
 
 You can also just ask in plain language, in Portuguese or English:
 
@@ -73,7 +73,7 @@ Every agent carries explicit limits: public sources only, no access behind login
 
 ## Contributing
 
-Agents are Markdown files with YAML frontmatter under `plugins/<plugin>/agents/`; shared knowledge and commands are `plugins/<plugin>/skills/<name>/SKILL.md`. See `CLAUDE.md` for the conventions and `CHANGELOG.md` for what changed. Run `scripts/check.sh` before opening a pull request (it validates manifests, self-tests the scripts and renders the templates and examples), and `scripts/check-sources.sh` when you touch a source URL. Investigation working files (`investigations/`, `docs_cache/`, PDFs) are gitignored; keep case material out of this repo.
+Agents are Markdown files with YAML frontmatter under `plugins/<plugin>/agents/`; shared knowledge and commands are `plugins/<plugin>/skills/<name>/SKILL.md`. See `CLAUDE.md` for the conventions and `CHANGELOG.md` for what changed. Run `scripts/check.sh` before opening a pull request (it validates manifests, self-tests the scripts and renders the templates and examples), `scripts/check-sources.sh` when you touch a source URL, and `scripts/smoke.sh` for a real end-to-end run (a non-interactive Claude session loads the plugin, the agent pulls Portal BASE through the script, and the answer is compared with an independent computation; it uses API credits). Investigation working files (`investigations/`, `docs_cache/`, PDFs) are gitignored; keep case material out of this repo.
 
 ## License
 

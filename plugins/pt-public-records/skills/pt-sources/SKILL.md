@@ -61,7 +61,7 @@ Every URL and endpoint below was fetched and checked on 2026-09-12. None needs a
 - **ERC Portal da Transparência** https://portaltransparencia.erc.pt (fetch). Ownership and financing of media outlets (Lei 78/2015).
 
 ## Data and statistics
-- **INE** https://www.ine.pt (fetch). JSON API, no key: `https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=<indicator code>&lang=PT` (add `Dim1=`, `Dim2=` filters as shown on the indicator's page; the code and dimensions are on every indicator page under "API"). Docs: https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_api. Census 2021 by parish at https://censos.ine.pt; metadata at https://smi.ine.pt.
+- **INE** https://www.ine.pt (fetch). JSON API, no key: `https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=<indicator code>&lang=PT` (add `Dim1=` for the period, e.g. `S7A2023`, and `Dim2=` for the geography; the codes are INE's own, not DICO codes, and are listed on each indicator's page under "API" or in the "Códigos" view of the selection screen; a wrong code returns a JSON error naming the dimension). Example indicator: resident population, `varcd=0004167`. Docs: https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_api. Census 2021 by parish at https://censos.ine.pt; metadata at https://smi.ine.pt.
 - **Pordata** https://www.pordata.pt (fetch, downloads only). **Eurostat** API https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/<dataset>?geo=PT (fetch, JSON-stat, no key).
 - **geoapi.pt** https://json.geoapi.pt (fetch, no key). Municipalities, parishes, postal codes (`/cp/<código postal>`), reverse geocoding (`/gps/<lat>,<lon>`) with official codes.
 
