@@ -1,0 +1,13 @@
+{
+  "description": "Logs every WebFetch URL to investigations/access-log.tsv so the evidence log has a full provenance trail.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "WebFetch",
+        "hooks": [
+          { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/log-access.sh\"", "timeout": 5 }
+        ]
+      }
+    ]
+  }
+}

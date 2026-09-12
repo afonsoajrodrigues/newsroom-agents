@@ -74,7 +74,16 @@ const checks = [
   ["no dual y-axis", (d.querySelectorAll(".y-axis, [class*='y-axis']").length) <= 1],
   ["reduced motion respected", /prefers-reduced-motion/.test(html)],
 ];
-if (svgOut && q("svg")) { writeFileSync(svgOut, q("svg").outerHTML); console.log(`svg written to ${svgOut}`); }
+if (svgOut && q("svg")) {
+  // self-contained SVG: inline the page CSS with the light-theme tokens resolved, so it renders outside the page (README, CMS)
+  const tokens = Object.fromEntries([...(html.match(/:root\s*\{([^}]*)\}/)?.[1] || "").matchAll(/(--[\w-]+)\s*:\s*([^;]+)/g)].map(m => [m[1], m[2].trim()]));
+  const resolve = v => v.replace(/var\((--[\w-]+)\)/g, (_, n) => resolve(tokens[n] || "#000"));
+  const css = [...d.styleSheets[0].cssRules].map(r => r.cssText).join("\n");
+  const node = q("svg").cloneNode(true), vb = (node.getAttribute("viewBox") || "0 0 640 400").split(" ");
+  node.setAttribute("xmlns", "http://www.w3.org/2000/svg"); node.setAttribute("width", vb[2]); node.setAttribute("height", vb[3]);
+  node.insertAdjacentHTML("afterbegin", `<style>${resolve(css)}</style>`);
+  writeFileSync(svgOut, node.outerHTML); console.log(`svg written to ${svgOut}`);
+}
 let fail = 0;
 for (const [name, ok, detail] of checks) {
   console.log(`${ok ? "PASS" : "FAIL"}  ${name}${!ok && detail ? " — " + detail : ""}`);

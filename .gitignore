@@ -6,3 +6,4 @@ investigations/
 .venv/
 __pycache__/
 .render-check/
+node_modules/

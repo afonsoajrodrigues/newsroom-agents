@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "newsroom-graphics",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Graphics desk agents: D3 interactive charts, choropleth and locator maps with Portuguese geodata, and a graphics reviewer, with a scaffolding command and a validated palette.",
   "author": { "name": "Afonso Rodrigues", "email": "afonsoajrodrigues@gmail.com", "url": "https://github.com/afonsoajrodrigues" },
   "repository": "https://github.com/afonsoajrodrigues/newsroom-agents",

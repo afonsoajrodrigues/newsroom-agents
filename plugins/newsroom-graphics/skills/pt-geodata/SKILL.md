@@ -21,6 +21,8 @@ Key fields: `dtmn` (4-digit district+municipality code, the DICO code INE uses),
 
 Native CRS: mainland EPSG:3763 (PT-TM06/ETRS89), Madeira EPSG:5016, Azores EPSG:5014 (west/central) and 5015 (east). Reproject to EPSG:4326 for D3: `scripts/geo-prep.py` does it.
 
+Distant islets stretch a fitted projection: the Selvagens belong to the Funchal municipality but lie 250 km south, so a Madeira map fitted to the raw layer shrinks the islands to a corner. Clip with `--bbox=-17.3,32.3,-16.2,33.2` and say so in the note; likewise the Formigas for the Azores.
+
 Sizes: mainland parishes are heavy (tens of MB). Simplify for the web: municipalities to ~5 to 10 percent of vertices, parishes to ~2 to 5 percent, and check the coastline still looks right at the display size.
 
 ## Europe and world
@@ -49,4 +51,4 @@ Sizes: mainland parishes are heavy (tens of MB). Simplify for the web: municipal
 - Basemap tiles are usually unnecessary; boundaries plus a few labels are cleaner and load without third-party requests.
 
 ## Preparation script
-`python3 "${CLAUDE_PLUGIN_ROOT}/scripts/geo-prep.py" <input.gpkg|.shp|.geojson> <out.json> [--layer NAME] [--keep dtmn,municipio] [--simplify 0.05]` reads with geopandas, reprojects to WGS84, keeps the named fields, and writes TopoJSON via mapshaper (topology-preserving simplification) when mapshaper is available, GeoJSON otherwise.
+`python3 "${CLAUDE_PLUGIN_ROOT}/scripts/geo-prep.py" <input.gpkg|.shp|.geojson> <out.json> [--layer NAME] [--keep dtmn,municipio] [--simplify 0.05] [--where "expr"] [--bbox minx,miny,maxx,maxy]` reads with geopandas, reprojects to WGS84, keeps the named fields, and writes TopoJSON via mapshaper (topology-preserving simplification) when mapshaper is available, GeoJSON otherwise. The map template accepts either. Verified on CAOP 2025 Madeira (`--layer ram_municipios`): 11 features, 0.1 MB.

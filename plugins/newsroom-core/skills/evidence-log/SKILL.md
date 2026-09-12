@@ -26,3 +26,4 @@ Every investigation keeps one ledger: `evidence-log.md` in the investigation fol
 3. Independence check before counting a second source: two outlets citing the same wire story are one source.
 4. Anything about a private individual needs a `public-interest:` note in Notes explaining why it is in the log at all.
 5. When a row is superseded or found wrong, do not delete it. Set Confidence to `RETRACTED` and add what replaced it. The log is an audit trail.
+6. `investigations/access-log.tsv` is written automatically by the plugin's hook: every URL fetched with WebFetch, with a UTC timestamp, whether or not it was cited. It is the provenance trail behind the evidence log; do not edit it by hand.

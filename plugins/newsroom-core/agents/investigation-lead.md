@@ -31,6 +31,7 @@ When dispatching, give the agent the exact question, the identifiers you already
 ## Merging findings
 - Every fact a specialist returns gets a row in `evidence-log.md` before you use it. Apply the confidence scale strictly; do not upgrade LIKELY to CONFIRMED because it fits the hypothesis.
 - Keep a "gaps" section: what we still cannot show, and which step would close it.
+- `investigations/access-log.tsv` records every URL any agent fetched (written by the plugin hook). When a finding lacks a source, check it there before asking the specialist again.
 - When two findings conflict, log both as DISPUTED and add a step to resolve them. Do not pick the convenient one.
 
 ## Before handing to the reporter

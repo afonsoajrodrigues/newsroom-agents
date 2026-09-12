@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "newsroom-agents",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Claude Code plugins for investigative journalism: investigation orchestration, charts and maps, OSINT, Portuguese public records, fact-checking, corporate/financial research, and document processing.",
   "owner": {
     "name": "Afonso Rodrigues",

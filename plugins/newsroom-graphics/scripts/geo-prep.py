@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""geo-prep.py INPUT OUTPUT [--layer NAME] [--keep f1,f2] [--simplify 0.05] [--where "expr"]
+"""geo-prep.py INPUT OUTPUT [--layer NAME] [--keep f1,f2] [--simplify 0.05] [--where "expr"] [--bbox minx,miny,maxx,maxy]
 
 Reads any vector file geopandas can open (GeoPackage, Shapefile, GeoJSON), reprojects to
 WGS84, keeps only the named attribute fields, and writes:
@@ -15,6 +15,7 @@ def main():
     ap.add_argument("--layer"); ap.add_argument("--keep", help="comma-separated fields to keep")
     ap.add_argument("--simplify", type=float, default=0.05, help="fraction of vertices to keep (mapshaper) or tolerance in degrees (fallback)")
     ap.add_argument("--where", help='pandas query, e.g. "distrito_ilha == \'Lisboa\'"')
+    ap.add_argument("--bbox", help="clip to minx,miny,maxx,maxy in WGS84, e.g. --bbox=-17.3,32.3,-16.2,33.2 to drop the Selvagens from a Madeira map")
     a = ap.parse_args()
     try:
         import geopandas as gpd
@@ -27,6 +28,8 @@ def main():
         print("warning: input has no CRS, assuming EPSG:4326", file=sys.stderr)
         g = g.set_crs(4326)
     g = g.to_crs(4326)
+    if a.bbox:
+        g = g.clip([float(v) for v in a.bbox.split(",")])
     if a.keep:
         g = g[[c for c in a.keep.split(",")] + ["geometry"]]
     print(f"{len(g)} features, fields: {[c for c in g.columns if c != 'geometry']}", file=sys.stderr)

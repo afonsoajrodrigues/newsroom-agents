@@ -14,5 +14,6 @@ Claude Code plugin marketplace for investigative journalism. Seven plugins under
 - Every agent ends with a Limits or Hard limits section. Keep them; they are the editorial guardrails.
 - Preload a skill into an agent only from the same plugin (`skills:` list), so each plugin installs alone.
 - Sources are cited as direct document URLs with access dates. Verify a URL is live before adding it to `pt-sources` or `osint-sources` (`scripts/check-sources.sh` fetches every cited URL; mark sites that block curl as `browser`). Prefer sources with a free, keyless endpoint and record the exact query URL or the script that reaches it.
-- Graphics templates in `plugins/newsroom-graphics/skills/new-graphic/` must keep passing `scripts/render-check.mjs`; `scripts/check.sh` runs it when Node is present.
+- Graphics templates in `plugins/newsroom-graphics/skills/new-graphic/` and the graphics under `examples/` must keep passing `scripts/render-check.mjs`; `scripts/check.sh` runs it when Node is present.
+- `examples/` hold finished graphics built from real public data with a README that reproduces `data/`. Never commit per-contract CSVs or anything naming private individuals; aggregate first.
 - Run `scripts/check.sh` before committing; `scripts/check-sources.sh` when source URLs change.

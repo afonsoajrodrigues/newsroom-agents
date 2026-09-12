@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ajustes diretos são dois em cada três contratos da Câmara de Lisboa, mas 15 % do valor</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<style>
+  :root { color-scheme: light dark;
+    --surface: #fcfcfb; --text: #0b0b0b; --text-2: #52514e; --grid: #e6e5e1;
+    --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --gray: #b5b4ae; --accent: var(--s2); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --surface: #1a1a19; --text: #ffffff; --text-2: #c3c2b7; --grid: #333331;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --gray: #5a5955; } }
+  :root[data-theme="dark"] { --surface: #1a1a19; --text: #ffffff; --text-2: #c3c2b7; --grid: #333331;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --gray: #5a5955; }
+  body { margin: 0; background: var(--surface); color: var(--text);
+    font: 15px/1.4 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .graphic { max-width: 720px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 1.25rem; line-height: 1.25; margin: 0 0 4px; }
+  .subtitle { color: var(--text-2); margin: 0 0 12px; }
+  figure { margin: 0; }
+  svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .grid line { stroke: var(--grid); }
+  .axis text, .label { fill: var(--text-2); font-size: 12px; }
+  .label.value { fill: var(--text); }
+  .annotation { fill: var(--text); font-size: 12px; font-weight: 600; }
+  .bar { fill: var(--gray); }
+  .bar.s1 { fill: var(--s1); } .bar.s2 { fill: var(--s2); }
+  .bar:focus, .bar:hover { outline: none; opacity: .85; }
+  .tooltip { position: fixed; pointer-events: none; background: var(--text); color: var(--surface);
+    padding: 6px 8px; border-radius: 4px; font-size: 12px; opacity: 0; transition: opacity .1s; }
+  .source { color: var(--text-2); font-size: 12px; margin-top: 8px; }
+  details { margin-top: 8px; font-size: 13px; } table { border-collapse: collapse; width: 100%; }
+  td, th { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--grid); } td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .tools { display: flex; gap: 8px; margin-top: 8px; } button { font: inherit; font-size: 12px; padding: 4px 8px; }
+  @media (prefers-reduced-motion: no-preference) { .bar { transition: width .4s ease; } }
+</style>
+</head>
+<body>
+<div class="graphic">
+  <h1>Ajustes diretos são dois em cada três contratos da Câmara de Lisboa, mas 15 % do valor</h1>
+  <p class="subtitle">Peso de cada tipo de procedimento no número de contratos e no valor contratual inicial, em percentagem. 1067 contratos assinados pelo Município de Lisboa em 2025 e publicados no Portal BASE até 12 de setembro de 2026 (153,6 milhões de euros)</p>
+  <figure role="img" aria-label="Gráfico de barras agrupadas por tipo de procedimento: os ajustes diretos são 66,5 por cento dos contratos mas 14,6 por cento do valor; os concursos públicos são 14,2 por cento dos contratos e 66,9 por cento do valor.">
+    <svg id="chart"></svg>
+    <figcaption class="source">Fonte: Portal BASE (IMPIC), extraído em 2026-09-12 com base-summary.py; contratos com data de assinatura em 2025. Análise: newsroom-agents (exemplo).</figcaption>
+  </figure>
+  <details><summary>Ver os dados em tabela</summary><table><thead><tr><th>Procedimento</th><th class="num">Contratos</th><th class="num">% dos contratos</th><th class="num">% do valor</th></tr></thead><tbody id="table"></tbody></table></details>
+  <div class="tools"><button id="dl-svg" type="button">Descarregar SVG</button><button id="dl-png" type="button">Descarregar PNG</button></div>
+</div>
+<div class="tooltip" id="tip"></div>
+<script>
+// ---- data: examples/lisboa-contratos-2025/data/procedimentos.csv (see README) ----
+const DATA = [
+  { label: "Ajuste direto", contratos: 710, pctContratos: 66.5, pctValor: 14.6 },
+  { label: "Consulta prévia", contratos: 160, pctContratos: 15.0, pctValor: 5.5 },
+  { label: "Concurso público", contratos: 152, pctContratos: 14.2, pctValor: 66.9 },
+  { label: "Acordo-quadro", contratos: 31, pctContratos: 2.9, pctValor: 9.4 },
+  { label: "Outros", contratos: 14, pctContratos: 1.3, pctValor: 3.6 },
+];
+const SERIES = [{ key: "pctContratos", name: "% dos contratos", cls: "s1" }, { key: "pctValor", name: "% do valor", cls: "s2" }];
+const ANNOTATION = { label: "Ajuste direto", text: "710 contratos, 22,4 M€" };
+const UNIT = " %";
+
+// ---- pt-PT locale ----
+const pt = d3.formatLocale({ decimal: ",", thousands: " ", grouping: [3], currency: ["", " €"] });
+const fmt = v => pt.format(",.1f")(v) + UNIT;
+
+// ---- table view ----
+d3.select("#table").selectAll("tr").data(DATA).join("tr").html(d => `<td>${d.label}</td><td class="num">${d.contratos}</td><td class="num">${pt.format(",.1f")(d.pctContratos)}</td><td class="num">${pt.format(",.1f")(d.pctValor)}</td>`);
+
+// ---- chart: grouped horizontal bars, two series, legend + direct labels ----
+const svg = d3.select("#chart"), tip = d3.select("#tip");
+function draw() {
+  const width = Math.max(320, svg.node().parentNode.clientWidth || 640);
+  const m = { top: 48, right: 56, bottom: 24, left: width < 480 ? 96 : 130 };
+  const height = m.top + m.bottom + DATA.length * 48;
+  svg.attr("viewBox", `0 0 ${width} ${height}`).selectAll("*").remove();
+  const x = d3.scaleLinear().domain([0, 70]).range([m.left, width - m.right]);
+  const y0 = d3.scaleBand().domain(DATA.map(d => d.label)).range([m.top, height - m.bottom]).paddingInner(0.25);
+  const y1 = d3.scaleBand().domain(SERIES.map(s => s.key)).range([0, y0.bandwidth()]).paddingInner(0.1);
+  svg.append("g").attr("class", "grid").selectAll("line").data(x.ticks(5)).join("line")
+    .attr("x1", d => x(d)).attr("x2", d => x(d)).attr("y1", m.top).attr("y2", height - m.bottom);
+  svg.append("g").attr("class", "axis x-axis").attr("transform", `translate(0,${height - m.bottom})`)
+    .call(d3.axisBottom(x).ticks(5).tickFormat(v => pt.format(",.0f")(v) + " %").tickSize(0)).select(".domain").remove();
+  svg.append("g").attr("class", "axis y-axis").attr("transform", `translate(${m.left},0)`)
+    .call(d3.axisLeft(y0).tickSize(0)).select(".domain").remove();
+  const legend = svg.append("g").attr("class", "legend").attr("transform", `translate(${m.left},10)`);
+  SERIES.forEach((s, i) => { const g = legend.append("g").attr("transform", `translate(${i * 150},0)`);
+    g.append("rect").attr("class", "bar " + s.cls).attr("width", 12).attr("height", 12).attr("y", -6).attr("rx", 2);
+    g.append("text").attr("class", "label").attr("x", 16).attr("dy", "0.35em").text(s.name); });
+  const groups = svg.append("g").selectAll("g").data(DATA).join("g").attr("transform", d => `translate(0,${y0(d.label)})`);
+  const bars = groups.selectAll("rect").data(d => SERIES.map(s => ({ label: d.label, series: s, value: d[s.key] }))).join("rect")
+    .attr("class", d => "bar " + d.series.cls).attr("x", x(0)).attr("y", d => y1(d.series.key)).attr("height", y1.bandwidth())
+    .attr("width", d => x(d.value) - x(0)).attr("rx", 2).attr("tabindex", 0).attr("aria-label", d => `${d.label}, ${d.series.name}: ${fmt(d.value)}`);
+  groups.selectAll("text").data(d => SERIES.map(s => ({ series: s, value: d[s.key] }))).join("text").attr("class", "label value")
+    .attr("x", d => x(d.value) + 6).attr("y", d => y1(d.series.key) + y1.bandwidth() / 2).attr("dy", "0.35em").text(d => fmt(d.value));
+  const a = DATA.find(d => d.label === ANNOTATION.label);
+  if (a) svg.append("text").attr("class", "annotation").attr("x", x(0)).attr("y", y0(a.label) - 6).text(ANNOTATION.text);
+  const show = (ev, d) => tip.style("opacity", 1).html(`<strong>${d.label}</strong><br>${d.series.name}: ${fmt(d.value)}`)
+    .style("left", (ev.clientX ?? 0) + 12 + "px").style("top", (ev.clientY ?? 0) + 12 + "px");
+  bars.on("mousemove", show).on("focus", (ev, d) => show({ clientX: 20, clientY: 20 }, d)).on("mouseleave blur", () => tip.style("opacity", 0));
+  window.parent?.postMessage({ type: "graphic-height", height: document.body.scrollHeight }, "*");
+}
+draw();
+new ResizeObserver(draw).observe(svg.node().parentNode);
+document.addEventListener("keydown", e => { if (e.key === "Escape") tip.style("opacity", 0); });
+
+// ---- export ----
+function svgString() {
+  const node = svg.node().cloneNode(true), css = [...document.styleSheets[0].cssRules].map(r => r.cssText).join("\n");
+  node.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+  node.insertAdjacentHTML("afterbegin", `<style>${css.replace(/var\(--[^)]+\)/g, m => getComputedStyle(document.documentElement).getPropertyValue(m.slice(4, -1)).trim() || "#000")}</style>`);
+  return new XMLSerializer().serializeToString(node);
+}
+function download(name, blob) { const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; a.click(); URL.revokeObjectURL(a.href); }
+document.getElementById("dl-svg").onclick = () => download("grafico.svg", new Blob([svgString()], { type: "image/svg+xml" }));
+document.getElementById("dl-png").onclick = () => {
+  const img = new Image(), vb = svg.attr("viewBox").split(" ").map(Number), c = document.createElement("canvas");
+  c.width = vb[2] * 2; c.height = vb[3] * 2;
+  img.onload = () => { const ctx = c.getContext("2d"); ctx.fillStyle = getComputedStyle(document.body).backgroundColor; ctx.fillRect(0, 0, c.width, c.height); ctx.drawImage(img, 0, 0, c.width, c.height); c.toBlob(b => download("grafico.png", b)); };
+  img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgString());
+};
+</script>
+</body>
+</html>

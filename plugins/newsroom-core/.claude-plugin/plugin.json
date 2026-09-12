@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "newsroom-core",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Investigation orchestrator, evidence log, timeline builder, data analysis and pre-publication review for investigative journalism.",
   "author": { "name": "Afonso Rodrigues", "email": "afonsoajrodrigues@gmail.com", "url": "https://github.com/afonsoajrodrigues" },
   "repository": "https://github.com/afonsoajrodrigues/newsroom-agents",
