@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.270",
+  "startedAt": "2026-09-12T23:03:52.083Z",
+  "durationSeconds": 16,
+  "costUsd": 0.0882772,
+  "partial": false,
+  "suite": {
+    "root": "/Users/afonsoajrodrigues/newsroom-agents/plugins/fact-check",
+    "ablation": "with-without",
+    "threshold": 1,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "fact-check",
+        "version": "2.2.0",
+        "path": "/Users/afonsoajrodrigues/newsroom-agents/plugins/fact-check"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "fontes-independentes",
+      "dir": "evals/fontes-independentes",
+      "source": "prose",
+      "promptMarkdown": "Tenho três jornais que dizem que o ministro \"admitiu o erro\", mas os três citam o mesmo despacho da Lusa. Isto conta como três fontes? Que grau de confiança dou à afirmação e o que preciso para a confirmar? Responde em português em quatro linhas no máximo.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 6,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The response must say this is one source, not three (the three outlets share the same original, the Lusa wire), must rate the claim as LIKELY at most (one credible source) or UNVERIFIED, never CONFIRMED, and must say what would confirm it: the primary source (the recording, transcript or the minister's own statement, or an official record) or a second independent source with its own lineage. It must be in Portuguese. Fail if it counts three sources, if it rates the claim CONFIRMED, or if it uses a confidence word outside CONFIRMED / LIKELY / UNVERIFIED / DISPUTED / FALSE.",
+          "config": {
+            "criteria": "The response must say this is one source, not three (the three outlets share the same original, the Lusa wire), must rate the claim as LIKELY at most (one credible source) or UNVERIFIED, never CONFIRMED, and must say what would confirm it: the primary source (the recording, transcript or the minister's own statement, or an official record) or a second independent source with its own lineage. It must be in Portuguese. Fail if it counts three sources, if it rates the claim CONFIRMED, or if it uses a confidence word outside CONFIRMED / LIKELY / UNVERIFIED / DISPUTED / FALSE.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 3,
+            "costUsd": 0.049368800000000004,
+            "judgeCostUsd": 0.001092,
+            "durationSeconds": 10,
+            "startedAt": "2026-09-12T23:03:52.091Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-UZ5SQb/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "Não conta como três fontes independentes — os três derivam do mesmo despacho da Lusa, ou seja, é uma única fonte reproduzida três vezes (falha o teste de independência). Grau de confiança: **LIKELY**, não CONFIRMED, pois assenta numa única origem, ainda que credível. Para confirmar, procure o áudio/vídeo ou transcrição original da declaração do ministro, ou uma segunda agência/órgão que tenha apurado a citação de forma independente."
+              }
+            ]
+          }
+        ],
+        "without": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 1,
+            "costUsd": 0.0389084,
+            "judgeCostUsd": 0.0010500000000000002,
+            "durationSeconds": 6,
+            "startedAt": "2026-09-12T23:04:02.035Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-nYGGDI/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "Não, é uma fonte só — os três jornais replicaram o mesmo despacho da Lusa, não fizeram apuração independente. Confiança moderada: a Lusa costuma ser rigorosa, mas ainda é fonte única para uma alegação factual sensível. Para confirmar, procure a declaração original do ministro (vídeo, transcrição, comunicado oficial) ou uma segunda agência/órgão com apuração própria."
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1,
+        "scoreWithout": 1,
+        "passRateWithout": 1,
+        "delta": 0
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 1,
+    "casesPassed": 1,
+    "overallScore": 1,
+    "overallPassRate": 1,
+    "meanDelta": 0
+  }
+}

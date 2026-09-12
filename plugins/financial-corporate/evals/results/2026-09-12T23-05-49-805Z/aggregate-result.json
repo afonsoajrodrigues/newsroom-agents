@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.270",
+  "startedAt": "2026-09-12T23:05:49.805Z",
+  "durationSeconds": 27,
+  "costUsd": 0.1018256,
+  "partial": false,
+  "suite": {
+    "root": "/Users/afonsoajrodrigues/newsroom-agents/plugins/financial-corporate",
+    "ablation": "with-without",
+    "threshold": 1,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "financial-corporate",
+        "version": "2.2.0",
+        "path": "/Users/afonsoajrodrigues/newsroom-agents/plugins/financial-corporate"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "dono-empresa",
+      "dir": "evals/dono-empresa",
+      "source": "prose",
+      "promptMarkdown": "Quero saber quem é o dono de uma empresa portuguesa chamada \"Construções Vale Verde, Lda\". Só tenho o nome. Que passos dou, por que ordem, e que fontes gratuitas uso? Responde em português em seis linhas no máximo.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 6,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The response must say to fix the exact legal name and NIF/NIPC first (names are ambiguous; it may suggest Portal BASE entity search, GLEIF, Racius/eInforma or a web search to get the NIF), then Publicações MJ (publicacoes.mj.pt) for the statutory acts (incorporation, shareholders, gerentes), and RCBE for beneficial owners with the caveat that access requires a stated legitimate interest and Cartão de Cidadão / Chave Móvel Digital by the reporter personally. It should warn that commercial aggregators are a first look only and that a shared director or address is a lead, not proof. It must be in Portuguese. Fail if it invents an owner, if it skips Publicações MJ, if it presents RCBE as freely searchable, or if it suggests any paid or login-only source as the primary route without saying so.",
+          "config": {
+            "criteria": "The response must say to fix the exact legal name and NIF/NIPC first (names are ambiguous; it may suggest Portal BASE entity search, GLEIF, Racius/eInforma or a web search to get the NIF), then Publicações MJ (publicacoes.mj.pt) for the statutory acts (incorporation, shareholders, gerentes), and RCBE for beneficial owners with the caveat that access requires a stated legitimate interest and Cartão de Cidadão / Chave Móvel Digital by the reporter personally. It should warn that commercial aggregators are a first look only and that a shared director or address is a lead, not proof. It must be in Portuguese. Fail if it invents an owner, if it skips Publicações MJ, if it presents RCBE as freely searchable, or if it suggests any paid or login-only source as the primary route without saying so.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 3,
+            "costUsd": 0.0566072,
+            "judgeCostUsd": 0.0016649999999999998,
+            "durationSeconds": 11,
+            "startedAt": "2026-09-12T23:05:49.814Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-KMaF1V/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "Passos, por ordem: 1) Confirme o nome exato e obtenha o NIF/NIPC (Portal BASE, GLEIF ou um site/factura da empresa), porque nomes repetem-se. 2) Consulte as **Publicações MJ** (publicacoes.mj.pt) por nome ou NIPC — aí encontra os atos societários (constituição, sócios, transmissões de quotas, nomeação de gerentes), cada um com data. 3) Se precisar do beneficiário efetivo declarado, tente o **RCBE** (rcbe.justica.gov.pt), mas hoje exige autenticação (Cartão de Cidadão/Chave Móvel Digital) e interesse legítimo justificado. 4) Para o registo comercial completo e atualizado, precisa da **certidão permanente** (paga, com código de acesso). Use Racius/eInforma só como primeira pista, confirmando sempre em Publicações MJ."
+              }
+            ]
+          }
+        ],
+        "without": [
+          {
+            "score": 0,
+            "passed": false,
+            "turns": 1,
+            "costUsd": 0.0452184,
+            "judgeCostUsd": 0.004466,
+            "durationSeconds": 16,
+            "startedAt": "2026-09-12T23:06:00.811Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-QMqST2/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": false,
+                "weight": 1,
+                "explanation": "judge votes: FAIL FAIL FAIL",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  false,
+                  false,
+                  false
+                ],
+                "evidence": "Segue a ordem prática, sem custos:\n\n1. **Portal da Justiça / Publicações de Atos Societários** (justica.gov.pt) — pesquise a firma na \"Certidão Permanente\" (paga) ou nas publicações de constituição/alterações societárias (gratuito) para ver sócios e gerência.\n2. **RCBE via IRN** — o Registo Central do Beneficiário Efetivo não é público diretamente, mas pode confirmar via Balcão Único ou pedir a certidão comercial (pequena taxa) que já contém sócios/gerentes.\n3. **Portal das Finanças / e-Fatura Consumidor** — não dá donos, mas confirma NIF ativo e CAE.\n4. **racius.com ou informacaoempresarial.pt** — agregadores gratuitos que mostram sócios, capital social e administração a partir de dados públicos, boa forma rápida de cruzar antes de pagar certidão.\n5. **Diário da República Eletrónico** (dre.pt) — pesquise atos de constituição/dissolução se a empresa for mais antiga.\n6. Se precisar de confirmação legal para fins formais (contratos, litígios), a única fonte oficialmente vinculativa é a **certidão permanente do registo comercial** (paga, poucos euros)."
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1,
+        "scoreWithout": 0,
+        "passRateWithout": 0,
+        "delta": 1
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 1,
+    "casesPassed": 1,
+    "overallScore": 1,
+    "overallPassRate": 1,
+    "meanDelta": 1
+  }
+}

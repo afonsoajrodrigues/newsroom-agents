@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.270",
+  "startedAt": "2026-09-12T23:05:07.367Z",
+  "durationSeconds": 42,
+  "costUsd": 0.18580220000000003,
+  "partial": false,
+  "suite": {
+    "root": "/Users/afonsoajrodrigues/newsroom-agents/plugins/newsroom-core",
+    "ablation": "with-without",
+    "threshold": 1,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "newsroom-core",
+        "version": "2.2.0",
+        "path": "/Users/afonsoajrodrigues/newsroom-agents/plugins/newsroom-core"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "registo-provas",
+      "dir": "evals/registo-provas",
+      "source": "prose",
+      "promptMarkdown": "Encontrei no Portal BASE que a empresa X ganhou 14 ajustes diretos da Câmara Y em 2024, e um site de notícias diz que o dono da empresa é primo do presidente da câmara. Como registo estas duas coisas no registo de provas e com que grau de confiança? Responde em português em seis linhas no máximo.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 6,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The response must treat the two facts as two separate rows. The Portal BASE finding is an official record: primary/official, CONFIRMED once the page is archived (it should mention archiving or the access date). The family-relationship claim from a news site is secondary and single-source: LIKELY at most or UNVERIFIED, never CONFIRMED, and it must say what would confirm it (an on-record source, a document, the people themselves) and that surname or press claims alone are not proof. It should mention that a private person being named needs a public-interest note, and/or right of reply before publication. It must be in Portuguese and use only the confidence words CONFIRMED / LIKELY / UNVERIFIED / DISPUTED / FALSE. Fail if it rates the family link CONFIRMED, merges the two facts into one row, or presents the procurement pattern as proof of wrongdoing.",
+          "config": {
+            "criteria": "The response must treat the two facts as two separate rows. The Portal BASE finding is an official record: primary/official, CONFIRMED once the page is archived (it should mention archiving or the access date). The family-relationship claim from a news site is secondary and single-source: LIKELY at most or UNVERIFIED, never CONFIRMED, and it must say what would confirm it (an on-record source, a document, the people themselves) and that surname or press claims alone are not proof. It should mention that a private person being named needs a public-interest note, and/or right of reply before publication. It must be in Portuguese and use only the confidence words CONFIRMED / LIKELY / UNVERIFIED / DISPUTED / FALSE. Fail if it rates the family link CONFIRMED, merges the two facts into one row, or presents the procurement pattern as proof of wrongdoing.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 3,
+            "costUsd": 0.052509,
+            "judgeCostUsd": 0.001398,
+            "durationSeconds": 10,
+            "startedAt": "2026-09-12T23:05:07.381Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-NGhejY/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "São duas linhas separadas: (1) os 14 ajustes diretos, fonte Portal BASE, `primary/official`, confiança **CONFIRMED** (registo oficial), com arquivo/sha256 da página; (2) o parentesco, fonte é um site de notícias, `secondary`, confiança **UNVERIFIED** até confirmares com registo civil/comercial ou declaração das partes — uma única notícia não sobe a LIKELY sozinha se não citar fonte primária. Adiciona nota `public-interest:` na linha do parentesco, já que envolve um particular. Não combines as duas em \"conflito de interesses\" no log — isso é uma inferência para o draft, não um facto verificado."
+              }
+            ]
+          }
+        ],
+        "without": [
+          {
+            "score": 0,
+            "passed": false,
+            "turns": 1,
+            "costUsd": 0.044453400000000004,
+            "judgeCostUsd": 0.0029689999999999994,
+            "durationSeconds": 13,
+            "startedAt": "2026-09-12T23:05:17.195Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-0Nwps5/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": false,
+                "weight": 1,
+                "explanation": "judge votes: FAIL FAIL FAIL",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  false,
+                  false,
+                  false
+                ],
+                "evidence": "Registe como duas entradas separadas e não as combine numa só conclusão:\n\n1. **Facto A** (Portal BASE: 14 ajustes diretos da empresa X à Câmara Y em 2024) — confiança **alta**, fonte primária oficial, cite o link/ID do contrato.\n2. **Facto B** (parentesco dono-presidente, via site de notícias) — confiança **média/baixa**, é fonte secundária; tente confirmar com registo civil, declaração de interesses ou fonte direta antes de subir o nível.\n3. A **ligação entre A e B** (sugestão de favorecimento) é uma **hipótese**, não um facto — registe-a como tal, com confiança \"a investigar\", até haver prova de decisão viciada (ex.: ausência de concorrência, preços acima do mercado)."
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1,
+        "scoreWithout": 0,
+        "passRateWithout": 0,
+        "delta": 1
+      }
+    },
+    {
+      "name": "revisao-frase",
+      "dir": "evals/revisao-frase",
+      "source": "prose",
+      "promptMarkdown": "Revê esta frase do meu rascunho antes de ir para o editor: \"O presidente da Câmara de Y desviou dinheiro público ao entregar 14 ajustes diretos à empresa do primo.\" No registo de provas tenho os 14 contratos do Portal BASE (CONFIRMED) e uma notícia que diz que o dono da empresa é primo dele (UNVERIFIED). Responde em português em seis linhas no máximo.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 6,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The response must flag \"desviou dinheiro público\" as an allegation of a crime stated as fact with no conviction, admission or official finding, and note that Portuguese law criminalises defamation, so the sentence must be rewritten to what the record shows (the 14 direct awards, which are confirmed) and attribute the family link to its source or drop it while it is UNVERIFIED. It must propose a rewritten sentence along those lines and say the mayor and the company must be given right of reply on the specific points before publication. It must be in Portuguese and must say it is an editorial review, not legal advice, or refer to counsel. Fail if it approves the sentence, if it treats the family link as established, or if it omits right of reply.",
+          "config": {
+            "criteria": "The response must flag \"desviou dinheiro público\" as an allegation of a crime stated as fact with no conviction, admission or official finding, and note that Portuguese law criminalises defamation, so the sentence must be rewritten to what the record shows (the 14 direct awards, which are confirmed) and attribute the family link to its source or drop it while it is UNVERIFIED. It must propose a rewritten sentence along those lines and say the mayor and the company must be given right of reply on the specific points before publication. It must be in Portuguese and must say it is an editorial review, not legal advice, or refer to counsel. Fail if it approves the sentence, if it treats the family link as established, or if it omits right of reply.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 1,
+            "costUsd": 0.0483464,
+            "judgeCostUsd": 0.001458000000000001,
+            "durationSeconds": 11,
+            "startedAt": "2026-09-12T23:05:30.093Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-6yS19s/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "Duas afirmações fortes a corrigir:\n\n1. \"Desviou dinheiro público\" é uma acusação de crime (peculato) apresentada como facto — os 14 ajustes diretos confirmados provam adjudicação direta, não necessariamente desvio ou ilegalidade. Sugiro: \"adjudicou 14 ajustes diretos a uma empresa alegadamente ligada a um familiar.\"\n\n2. \"Empresa do primo\" está marcado como UNVERIFIED (uma notícia, não confirmado por si) — não pode ir como facto assente. Use \"que terá sido fundada/gerida por um alegado primo, segundo [fonte]\" ou verifique a relação (registo comercial/certidão) antes de publicar.\n\n3. Falta o contraditório do presidente da Câmara — sem isso, esta frase não deve ir para o editor."
+              }
+            ]
+          }
+        ],
+        "without": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 1,
+            "costUsd": 0.040493400000000006,
+            "judgeCostUsd": 0.0013770000000000006,
+            "durationSeconds": 8,
+            "startedAt": "2026-09-12T23:05:41.562Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-JJhAVd/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "A frase mistura facto confirmado com hipótese: \"desviou dinheiro público\" e \"empresa do primo\" implicam intenção criminosa e parentesco que ainda não provou. Os 14 ajustes diretos são factuais (CONFIRMED), mas o parentesco é UNVERIFIED — só uma notícia, não confirmação própria.\n\nSugestão: \"O presidente da Câmara de Y entregou 14 ajustes diretos a uma empresa cujo dono seria, segundo uma notícia [fonte], primo do autarca.\"\n\nAssim separa o facto verificado (contratos) da alegação por confirmar (parentesco), e evita a acusação de desvio, que exigiria prova de dolo ou irregularidade que ainda não tem."
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1,
+        "scoreWithout": 1,
+        "passRateWithout": 1,
+        "delta": 0
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 2,
+    "casesPassed": 2,
+    "overallScore": 1,
+    "overallPassRate": 1,
+    "meanDelta": 0.5
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.270",
+  "startedAt": "2026-09-12T23:04:09.050Z",
+  "durationSeconds": 23,
+  "costUsd": 0.1044446,
+  "partial": false,
+  "suite": {
+    "root": "/Users/afonsoajrodrigues/newsroom-agents/plugins/osint-toolkit",
+    "ablation": "with-without",
+    "threshold": 1,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "osint-toolkit",
+        "version": "2.2.0",
+        "path": "/Users/afonsoajrodrigues/newsroom-agents/plugins/osint-toolkit"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "pagina-antiga-pt",
+      "dir": "evals/pagina-antiga-pt",
+      "source": "prose",
+      "promptMarkdown": "Uma câmara municipal apagou uma notícia do site dela em 2019. Onde posso encontrar uma cópia antiga da página e como registo isso como prova? Responde em português em cinco linhas no máximo, com os URLs.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 6,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The response must name both the Wayback Machine (web.archive.org) and Arquivo.pt (arquivo.pt), the Portuguese web archive, as places to look for old captures, and must say to preserve the evidence with the plugin's archive.sh script or the web-archiver agent (local copy, sha256, archive links, log line). Mentioning archive.ph as a third option is fine. It must be in Portuguese. Fail if Arquivo.pt is missing, if it suggests accessing anything behind a login, or if it invents a URL that is not on web.archive.org, arquivo.pt or archive.ph.",
+          "config": {
+            "criteria": "The response must name both the Wayback Machine (web.archive.org) and Arquivo.pt (arquivo.pt), the Portuguese web archive, as places to look for old captures, and must say to preserve the evidence with the plugin's archive.sh script or the web-archiver agent (local copy, sha256, archive links, log line). Mentioning archive.ph as a third option is fine. It must be in Portuguese. Fail if Arquivo.pt is missing, if it suggests accessing anything behind a login, or if it invents a URL that is not on web.archive.org, arquivo.pt or archive.ph.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 3,
+            "costUsd": 0.0634792,
+            "judgeCostUsd": 0.0013020000000000002,
+            "durationSeconds": 14,
+            "startedAt": "2026-09-12T23:04:09.061Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-YuyNZX/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "Para uma página apagada em 2019, verifica primeiro o Arquivo.pt (arquivo nacional português, ótimo para sites .pt): https://arquivo.pt/wayback/cdx?url=<URL>&output=json e reveja capturas em https://arquivo.pt/wayback/<timestamp>/<URL>; depois a Wayback Machine: https://web.archive.org/cdx/search/cdx?url=<URL>&output=json. Para registar como prova: guarda o URL, o timestamp da captura e uma cópia local (PDF/screenshot da página do arquivo), calcula o hash SHA256 do ficheiro e anota tudo num registo de evidências com data/hora. Se precisares, posso usar o agente `web-archiver` para preservar e gerar esse registo automaticamente."
+              }
+            ]
+          }
+        ],
+        "without": [
+          {
+            "score": 0,
+            "passed": false,
+            "turns": 1,
+            "costUsd": 0.040965400000000006,
+            "judgeCostUsd": 0.002341,
+            "durationSeconds": 10,
+            "startedAt": "2026-09-12T23:04:22.717Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-HDOfgQ/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": false,
+                "weight": 1,
+                "explanation": "judge votes: FAIL FAIL FAIL",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  false,
+                  false,
+                  false
+                ],
+                "evidence": "Pode encontrar cópias arquivadas em:\n\n1. **Wayback Machine**: https://web.archive.org/web/*/[URL da página] — pesquise pelo URL original da notícia para ver se há snapshots de 2019.\n2. **Arquivo.pt** (arquivo português, útil para sites de câmaras municipais): https://arquivo.pt/\n\nPara registar como prova: tire capturas de ecrã completas (URL, data visível), guarde o URL do snapshot arquivado, e considere usar um serviço de timestamping (ex. https://www.originstamp.com/) ou pedir certificação notarial/autenticação por advogado, especialmente se destinado a processo judicial."
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1,
+        "scoreWithout": 0,
+        "passRateWithout": 0,
+        "delta": 1
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 1,
+    "casesPassed": 1,
+    "overallScore": 1,
+    "overallPassRate": 1,
+    "meanDelta": 1
+  }
+}

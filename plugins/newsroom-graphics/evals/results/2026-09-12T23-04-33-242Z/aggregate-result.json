@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.270",
+  "startedAt": "2026-09-12T23:04:33.242Z",
+  "durationSeconds": 33,
+  "costUsd": 0.1274358,
+  "partial": false,
+  "suite": {
+    "root": "/Users/afonsoajrodrigues/newsroom-agents/plugins/newsroom-graphics",
+    "ablation": "with-without",
+    "threshold": 1,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "newsroom-graphics",
+        "version": "2.2.0",
+        "path": "/Users/afonsoajrodrigues/newsroom-agents/plugins/newsroom-graphics"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "mapa-contagens",
+      "dir": "evals/mapa-contagens",
+      "source": "prose",
+      "promptMarkdown": "Tenho o número de contratos por ajuste direto de cada concelho de Portugal em 2025 (contagens absolutas). Quero um mapa coroplético a pintar cada concelho pelo número de contratos. Que me recomendas e que ficheiro de limites uso? Responde em português em cinco linhas no máximo.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 6,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The response must push back on a choropleth of raw counts (big or populous municipalities dominate) and recommend either a rate (per capita, per 1000 inhabitants, share of contracts or of value) for a choropleth, or proportional symbols for the counts. It must name CAOP (Direção-Geral do Território) as the boundary source and say to join on the municipality code (dtmn / DICO), not on names. Mentioning INE population as the denominator, island insets, or the geo-prep script is a plus. It must be in Portuguese. Fail if it simply agrees to colour municipalities by count, if it suggests joining on names, or if it names a boundary source other than CAOP/DGT, GISCO or geoapi.pt for Portuguese municipalities.",
+          "config": {
+            "criteria": "The response must push back on a choropleth of raw counts (big or populous municipalities dominate) and recommend either a rate (per capita, per 1000 inhabitants, share of contracts or of value) for a choropleth, or proportional symbols for the counts. It must name CAOP (Direção-Geral do Território) as the boundary source and say to join on the municipality code (dtmn / DICO), not on names. Mentioning INE population as the denominator, island insets, or the geo-prep script is a plus. It must be in Portuguese. Fail if it simply agrees to colour municipalities by count, if it suggests joining on names, or if it names a boundary source other than CAOP/DGT, GISCO or geoapi.pt for Portuguese municipalities.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 3,
+            "costUsd": 0.0623872,
+            "judgeCostUsd": 0.001485,
+            "durationSeconds": 12,
+            "startedAt": "2026-09-12T23:04:33.251Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-ipSpgC/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "Com contagens absolutas, um coroplético tende a destacar só os concelhos grandes (Lisboa, Porto, Sintra), por isso sugiro normalizar (contratos per capita ou por 1000 habitantes) — mas se quiseres mesmo os valores brutos, usa classes com breaks naturais (Jenks) em vez de intervalos iguais. Para os limites, usa a CAOP 2025 da DGT (GeoPackage, `CAOP_Continente_2025-gpkg.zip`, + ficheiros RAA/RAM para Açores/Madeira), camada `*_municipios`. Faz o join pelo código `dtmn` (não pelo nome do concelho, por causa de acentos/variantes). Recomendo a skill/agente `map-builder` para gerar o mapa em D3 com esta base e as tuas contagens."
+              }
+            ]
+          }
+        ],
+        "without": [
+          {
+            "score": 0,
+            "passed": false,
+            "turns": 3,
+            "costUsd": 0.0650486,
+            "judgeCostUsd": 0.0030609999999999995,
+            "durationSeconds": 22,
+            "startedAt": "2026-09-12T23:04:44.936Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-soekMa/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": false,
+                "weight": 1,
+                "explanation": "judge votes: FAIL FAIL FAIL",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  false,
+                  false,
+                  false
+                ],
+                "evidence": "Recomendo um **coroplético sequencial de matiz único** (claro→escuro), com classes por quantis ou escala logarítmica — não linear — já que contagens absolutas de contratos costumam ser muito assimétricas (Lisboa/Porto disparam face ao resto). Evite \"rainbow\"; use uma rampa tipo Blues/Greens de um único tom, validada para daltonismo.\n\nPara os limites geográficos dos 308 concelhos, use a **CAOP (Carta Administrativa Oficial de Portugal)** da DGT (dgterritorio.gov.pt), disponível em Shapefile/GeoJSON e atualizada anualmente — é a fonte oficial e mais fiável. Alternativa mais leve para web: o GeoJSON simplificado de concelhos publicado no dados.gov.pt ou repositórios como `nmota/mapas_portugal`/`dssg-pt`, que derivam da CAOP mas com geometria simplificada (mais rápido a renderizar)."
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1,
+        "scoreWithout": 0,
+        "passRateWithout": 0,
+        "delta": 1
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 1,
+    "casesPassed": 1,
+    "overallScore": 1,
+    "overallPassRate": 1,
+    "meanDelta": 1
+  }
+}

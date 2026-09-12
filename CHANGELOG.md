@@ -13,6 +13,7 @@
 - `examples/investigation-skeleton/`: the case folder with real evidence rows.
 - `scripts/smoke.sh` (end-to-end run through a non-interactive Claude session) and `evals/` cases for pt-public-records, fact-check and osint-toolkit for `claude plugin eval`.
 - `financial-corporate/skills/company-sources`: the company-records directory as a shared skill (an eval showed that without it a plain session answered from stale general knowledge, e.g. RCBE as freely searchable); preloaded into both agents.
+- Eval ablation on 2026-09-13: 7/7 cases pass with the plugins, 2/7 without.
 - Install path tested against GitHub for all seven plugins; token cost documented (about 4 300 always-on tokens for all seven).
 
 ## 2.1.0 (2026-09-12)

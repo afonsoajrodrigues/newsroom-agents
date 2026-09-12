@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.270",
+  "startedAt": "2026-09-12T23:03:30.492Z",
+  "durationSeconds": 21,
+  "costUsd": 0.113175,
+  "partial": false,
+  "suite": {
+    "root": "/Users/afonsoajrodrigues/newsroom-agents/plugins/pt-public-records",
+    "ablation": "with-without",
+    "threshold": 1,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "pt-public-records",
+        "version": "2.2.0",
+        "path": "/Users/afonsoajrodrigues/newsroom-agents/plugins/pt-public-records"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "fonte-declaracao-interesses",
+      "dir": "evals/fonte-declaracao-interesses",
+      "source": "prose",
+      "promptMarkdown": "Onde é que eu consulto a declaração de rendimentos, património e interesses de um ministro em Portugal, e que limitações de acesso existem? Responde em português em quatro linhas no máximo, com o URL.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 6,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The response must point to the Entidade para a Transparência (Tribunal Constitucional) with a URL on tribunalconstitucional.pt or entidadetransparencia.pt, and say that consultation is on request through the platform rather than bulk-searchable, and that the reporter must make the request personally (Cartão de Cidadão or Chave Móvel Digital is a plus). It must be in Portuguese. Fail if it points to parlamento.pt as the register for ministers, invents a URL, or claims the declarations are freely downloadable in bulk.",
+          "config": {
+            "criteria": "The response must point to the Entidade para a Transparência (Tribunal Constitucional) with a URL on tribunalconstitucional.pt or entidadetransparencia.pt, and say that consultation is on request through the platform rather than bulk-searchable, and that the reporter must make the request personally (Cartão de Cidadão or Chave Móvel Digital is a plus). It must be in Portuguese. Fail if it points to parlamento.pt as the register for ministers, invents a URL, or claims the declarations are freely downloadable in bulk.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 3,
+            "costUsd": 0.0720986,
+            "judgeCostUsd": 0.001056,
+            "durationSeconds": 11,
+            "startedAt": "2026-09-12T23:03:30.505Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-frWnI8/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "As declarações consultam-se na Entidade para a Transparência: https://entidadetransparencia.pt (também referenciado em https://www.tribunalconstitucional.pt/tc/entidade.html). O acesso não é livre nem em massa — a consulta faz-se mediante pedido através da própria plataforma, ao abrigo da Lei 52/2019. Não há pesquisa pública aberta a qualquer visitante nem download direto do ficheiro."
+              }
+            ]
+          }
+        ],
+        "without": [
+          {
+            "score": 0,
+            "passed": false,
+            "turns": 1,
+            "costUsd": 0.041076400000000006,
+            "judgeCostUsd": 0.003102,
+            "durationSeconds": 10,
+            "startedAt": "2026-09-12T23:03:41.116Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-SgFCKk/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": false,
+                "weight": 1,
+                "explanation": "judge votes: FAIL FAIL FAIL",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  false,
+                  false,
+                  false
+                ],
+                "evidence": "As declarações de titulares de cargos políticos (incluindo ministros) estão no Tribunal Constitucional, no portal das declarações únicas: https://declaracoes.tribunalconstitucional.pt/. O acesso a rendimentos e património detalhados é restrito — só entidades autorizadas (ex. Ministério Público) os consultam; o público em geral só pode ver dados sujeitos a publicidade e apresentar reclamações fundamentadas, não aceder livremente ao conteúdo integral."
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1,
+        "scoreWithout": 0,
+        "passRateWithout": 0,
+        "delta": 1
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 1,
+    "casesPassed": 1,
+    "overallScore": 1,
+    "overallPassRate": 1,
+    "meanDelta": 1
+  }
+}
