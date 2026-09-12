@@ -7,7 +7,8 @@ Claude Code plugin marketplace for investigative journalism. Seven plugins under
 - `agents/*.md` subagents: YAML frontmatter (`name`, `description`, `model`, `color`, `tools`, optional `skills`) plus the system prompt
 - `skills/<name>/SKILL.md` shared reference (`user-invocable: false`) or slash commands (`disable-model-invocation: true`)
 - `scripts/` shell or Python helpers referenced via `${CLAUDE_PLUGIN_ROOT}`
-- `hooks/hooks.json` only where enforcement is needed (document-tools)
+- `hooks/hooks.json` only where enforcement is needed (document-tools blocks PDF reads; newsroom-core logs fetched URLs)
+- `evals/<case>/prompt.md` plus `graders/criteria.md`: eval cases run with `claude plugin eval plugins/<plugin> --trust-plugin --no-publish --runs 1` (costs API credits; results under `evals/results/` are gitignored). The eval sandbox has no network, so cases must be answerable from the plugin's own skills; live endpoints are covered by `scripts/smoke.sh`
 
 ## Conventions
 - Descriptions start with what the agent does, then "Use proactively when ...", then "Triggers on ..." with the phrases a reporter would actually type. Claude routes on these.

@@ -1,6 +1,6 @@
 ---
 name: viz-standards
-description: The graphics desk standard for charts and maps - form selection, validated palette, mark specs, annotation, interaction, accessibility, pt-PT formatting and the pre-publication checklist. Use whenever building or reviewing a chart, map or interactive graphic.
+description: The graphics desk standard for charts and maps - form selection, validated palette, mark specs, annotation, interaction, accessibility, pt-PT formatting and the pre-publication checklist. Use whenever building or reviewing a chart, map or interactive graphic, or when asked which chart type, colours or number format to use. Em português - "que gráfico uso para", "que cores", "como formato os números", "este gráfico está bem".
 user-invocable: false
 ---
 

@@ -10,6 +10,9 @@
 - `README.pt.md` in Portuguese; every agent description carries Portuguese trigger phrases so routing works for reporters typing in Portuguese.
 - `/pt-public-records:base-summary <entity>` command wrapping `base-summary.py`.
 - `document-tools/scripts/scrub.sh`: metadata removal (exiftool) for files before they are shared, with a report of what could not be stripped.
+- `examples/investigation-skeleton/`: the case folder with real evidence rows.
+- `scripts/smoke.sh` (end-to-end run through a non-interactive Claude session) and `evals/` cases for pt-public-records, fact-check and osint-toolkit for `claude plugin eval`.
+- Install path tested against GitHub for all seven plugins; token cost documented (about 4 300 always-on tokens for all seven).
 
 ## 2.1.0 (2026-09-12)
 

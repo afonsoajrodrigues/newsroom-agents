@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.270",
+  "startedAt": "2026-09-12T22:56:33.653Z",
+  "durationSeconds": 47,
+  "costUsd": 0.266098,
+  "partial": false,
+  "suite": {
+    "root": "/Users/afonsoajrodrigues/newsroom-agents/plugins/pt-public-records",
+    "ablation": "none",
+    "threshold": 1,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "pt-public-records",
+        "version": "2.2.0",
+        "path": "/Users/afonsoajrodrigues/newsroom-agents/plugins/pt-public-records"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "base-porto-moniz",
+      "dir": "evals/base-porto-moniz",
+      "source": "prose",
+      "promptMarkdown": "Quantos contratos assinou o Município do Porto Moniz em 2025 segundo o Portal BASE, e que percentagem do valor total foi adjudicada por ajuste direto? Usa o script base-summary.py do plugin pt-public-records e responde em português, em cinco linhas no máximo, com os números e a query usada.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 12,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The response must state that Portal BASE lists 56 contracts signed by Município do Porto Moniz in 2025 (a count between 55 and 60 is acceptable if the portal added contracts since 2026-09-12) and that about 43 to 44 percent of the total initial contractual value was awarded by \"ajuste direto\". It must name the query or command used (adjudicante=Município do Porto Moniz with a 2025 date range, or base-summary.py with those arguments). It must be in Portuguese and must not call the pattern irregular, illegal or corrupt. Fail if the numbers are invented, if no script or query is mentioned, or if the answer says the data could not be obtained.",
+          "config": {
+            "criteria": "The response must state that Portal BASE lists 56 contracts signed by Município do Porto Moniz in 2025 (a count between 55 and 60 is acceptable if the portal added contracts since 2026-09-12) and that about 43 to 44 percent of the total initial contractual value was awarded by \"ajuste direto\". It must name the query or command used (adjudicante=Município do Porto Moniz with a 2025 date range, or base-summary.py with those arguments). It must be in Portuguese and must not call the pattern irregular, illegal or corrupt. Fail if the numbers are invented, if no script or query is mentioned, or if the answer says the data could not be obtained.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 0,
+            "passed": false,
+            "turns": 7,
+            "costUsd": 0.17120760000000002,
+            "judgeCostUsd": 0.001359,
+            "durationSeconds": 28,
+            "startedAt": "2026-09-12T22:56:33.665Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-cQb0fz/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": false,
+                "weight": 1,
+                "explanation": "judge votes: FAIL FAIL FAIL",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  false,
+                  false,
+                  false
+                ],
+                "evidence": "O acesso de rede ao Portal BASE (www.base.gov.pt) foi bloqueado pela sandbox — a permissão foi negada, não é algo que eu possa contornar. Preciso que autorizes este acesso de rede para poder executar a query.\n\n**Query que seria usada:**\n```\npython3 base-summary.py --adjudicante \"Município do Porto Moniz\" --from 2025-01-01 --to 2025-12-31 --out porto-moniz-2025\n```\n\nQueres aprovar o acesso à rede para `www.base.gov.pt`, ou preferes que eu tente por outra via (ex.: um subagente `procurement-watchdog` que tenha essa permissão configurada)?"
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 0,
+        "passRate": 0
+      }
+    },
+    {
+      "name": "fonte-declaracao-interesses",
+      "dir": "evals/fonte-declaracao-interesses",
+      "source": "prose",
+      "promptMarkdown": "Onde é que eu consulto a declaração de rendimentos, património e interesses de um ministro em Portugal, e que limitações de acesso existem? Responde em português em quatro linhas no máximo, com o URL.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 6,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The response must point to the Entidade para a Transparência (Tribunal Constitucional) with a URL on tribunalconstitucional.pt or entidadetransparencia.pt, and say that consultation is on request through the platform rather than bulk-searchable, and that the reporter must make the request personally (Cartão de Cidadão or Chave Móvel Digital is a plus). It must be in Portuguese. Fail if it points to parlamento.pt as the register for ministers, invents a URL, or claims the declarations are freely downloadable in bulk.",
+          "config": {
+            "criteria": "The response must point to the Entidade para a Transparência (Tribunal Constitucional) with a URL on tribunalconstitucional.pt or entidadetransparencia.pt, and say that consultation is on request through the platform rather than bulk-searchable, and that the reporter must make the request personally (Cartão de Cidadão or Chave Móvel Digital is a plus). It must be in Portuguese. Fail if it points to parlamento.pt as the register for ministers, invents a URL, or claims the declarations are freely downloadable in bulk.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 2,
+            "costUsd": 0.09489039999999999,
+            "judgeCostUsd": 0.0010800000000000002,
+            "durationSeconds": 18,
+            "startedAt": "2026-09-12T22:57:01.931Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-A6Btkb/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "A declaração consulta-se na Entidade para a Transparência (sediada no Tribunal Constitucional, Lei 52/2019), em https://entidadetransparencia.pt. O acesso é público mas não livre: exige pedido individual autenticado com Cartão de Cidadão ou Chave Móvel Digital, não havendo pesquisa aberta online. Alguns elementos podem ficar reservados consoante a sensibilidade da informação, e a disponibilização do documento não é imediata."
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 2,
+    "casesPassed": 1,
+    "overallScore": 0.5,
+    "overallPassRate": 0.5
+  }
+}

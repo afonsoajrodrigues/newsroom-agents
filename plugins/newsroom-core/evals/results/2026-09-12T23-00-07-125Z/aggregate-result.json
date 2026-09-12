@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.270",
+  "startedAt": "2026-09-12T23:00:07.125Z",
+  "durationSeconds": 9,
+  "costUsd": 0.0523276,
+  "partial": false,
+  "suite": {
+    "root": "/Users/afonsoajrodrigues/newsroom-agents/plugins/newsroom-core",
+    "ablation": "none",
+    "threshold": 1,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "newsroom-core",
+        "version": "2.2.0",
+        "path": "/Users/afonsoajrodrigues/newsroom-agents/plugins/newsroom-core"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "registo-provas",
+      "dir": "evals/registo-provas",
+      "source": "prose",
+      "promptMarkdown": "Encontrei no Portal BASE que a empresa X ganhou 14 ajustes diretos da Câmara Y em 2024, e um site de notícias diz que o dono da empresa é primo do presidente da câmara. Como registo estas duas coisas no registo de provas e com que grau de confiança? Responde em português em seis linhas no máximo.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 6,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The response must treat the two facts as two separate rows. The Portal BASE finding is an official record: primary/official, CONFIRMED once the page is archived (it should mention archiving or the access date). The family-relationship claim from a news site is secondary and single-source: LIKELY at most or UNVERIFIED, never CONFIRMED, and it must say what would confirm it (an on-record source, a document, the people themselves) and that surname or press claims alone are not proof. It should mention that a private person being named needs a public-interest note, and/or right of reply before publication. It must be in Portuguese and use only the confidence words CONFIRMED / LIKELY / UNVERIFIED / DISPUTED / FALSE. Fail if it rates the family link CONFIRMED, merges the two facts into one row, or presents the procurement pattern as proof of wrongdoing.",
+          "config": {
+            "criteria": "The response must treat the two facts as two separate rows. The Portal BASE finding is an official record: primary/official, CONFIRMED once the page is archived (it should mention archiving or the access date). The family-relationship claim from a news site is secondary and single-source: LIKELY at most or UNVERIFIED, never CONFIRMED, and it must say what would confirm it (an on-record source, a document, the people themselves) and that surname or press claims alone are not proof. It should mention that a private person being named needs a public-interest note, and/or right of reply before publication. It must be in Portuguese and use only the confidence words CONFIRMED / LIKELY / UNVERIFIED / DISPUTED / FALSE. Fail if it rates the family link CONFIRMED, merges the two facts into one row, or presents the procurement pattern as proof of wrongdoing.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 3,
+            "costUsd": 0.0523276,
+            "judgeCostUsd": 0.001356,
+            "durationSeconds": 9,
+            "startedAt": "2026-09-12T23:00:07.133Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-nTdBhS/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "Registe como duas linhas separadas: E-00X (Portal BASE, primary/official, CONFIRMED — é registo público, arquive a página/URL com hash) para os 14 ajustes diretos; E-00Y (site de notícias, secondary, UNVERIFIED — uma única fonte não confirma parentesco) para a alegação do parentesco, com nota `public-interest:` a justificar a menção ao dono. Não combine as duas numa única frase de \"conflito de interesses\" no draft — isso exigiria confirmar o parentesco por registo civil/comercial ou segunda fonte independente antes de subir a CONFIRMED/LIKELY."
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 1,
+    "casesPassed": 1,
+    "overallScore": 1,
+    "overallPassRate": 1
+  }
+}

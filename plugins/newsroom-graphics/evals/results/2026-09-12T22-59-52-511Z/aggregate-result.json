@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.270",
+  "startedAt": "2026-09-12T22:59:52.511Z",
+  "durationSeconds": 14,
+  "costUsd": 0.0645682,
+  "partial": false,
+  "suite": {
+    "root": "/Users/afonsoajrodrigues/newsroom-agents/plugins/newsroom-graphics",
+    "ablation": "none",
+    "threshold": 1,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "newsroom-graphics",
+        "version": "2.2.0",
+        "path": "/Users/afonsoajrodrigues/newsroom-agents/plugins/newsroom-graphics"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "mapa-contagens",
+      "dir": "evals/mapa-contagens",
+      "source": "prose",
+      "promptMarkdown": "Tenho o número de contratos por ajuste direto de cada concelho de Portugal em 2025 (contagens absolutas). Quero um mapa coroplético a pintar cada concelho pelo número de contratos. Que me recomendas e que ficheiro de limites uso? Responde em português em cinco linhas no máximo.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 6,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The response must push back on a choropleth of raw counts (big or populous municipalities dominate) and recommend either a rate (per capita, per 1000 inhabitants, share of contracts or of value) for a choropleth, or proportional symbols for the counts. It must name CAOP (Direção-Geral do Território) as the boundary source and say to join on the municipality code (dtmn / DICO), not on names. Mentioning INE population as the denominator, island insets, or the geo-prep script is a plus. It must be in Portuguese. Fail if it simply agrees to colour municipalities by count, if it suggests joining on names, or if it names a boundary source other than CAOP/DGT, GISCO or geoapi.pt for Portuguese municipalities.",
+          "config": {
+            "criteria": "The response must push back on a choropleth of raw counts (big or populous municipalities dominate) and recommend either a rate (per capita, per 1000 inhabitants, share of contracts or of value) for a choropleth, or proportional symbols for the counts. It must name CAOP (Direção-Geral do Território) as the boundary source and say to join on the municipality code (dtmn / DICO), not on names. Mentioning INE population as the denominator, island insets, or the geo-prep script is a plus. It must be in Portuguese. Fail if it simply agrees to colour municipalities by count, if it suggests joining on names, or if it names a boundary source other than CAOP/DGT, GISCO or geoapi.pt for Portuguese municipalities.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 3,
+            "costUsd": 0.0645682,
+            "judgeCostUsd": 0.001428,
+            "durationSeconds": 14,
+            "startedAt": "2026-09-12T22:59:52.519Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-vIeDRa/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "Para contagens absolutas por concelho, um coroplético tende a enganar (Lisboa/Porto dominam só por serem maiores/mais populosos) — recomendo antes um mapa de símbolos proporcionais (círculos com área ∝ nº de contratos), ou, se insistires no coroplético, normaliza (contratos per capita ou por 1000 habitantes). Para os limites, usa o CAOP da DGT 2025 (concelhos de Portugal Continental + Açores + Madeira), fazendo o join pelo código `dtmn` e nunca pelo nome do concelho. Trata Açores e Madeira como insets separados, não estiques o mapa do continente para os incluir. Queres que prepare os ficheiros e construa o mapa?"
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 1,
+    "casesPassed": 1,
+    "overallScore": 1,
+    "overallPassRate": 1
+  }
+}

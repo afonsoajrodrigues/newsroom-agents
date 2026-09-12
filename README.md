@@ -25,7 +25,7 @@ Two things it produced from real public data, end to end, on 2026-09-12:
 /plugin install document-tools@newsroom-agents
 ```
 
-Each plugin works on its own. `newsroom-core` is the one to start with; it knows how to use the others when they are installed.
+Each plugin works on its own. `newsroom-core` is the one to start with; it knows how to use the others when they are installed. Installing all seven adds about 4 300 tokens to a session (`claude plugin details <plugin>@newsroom-agents`); an agent's full prompt loads only when it fires. The install path above was tested against this repository on 2026-09-13.
 
 ## What you get
 
@@ -73,7 +73,7 @@ Every agent carries explicit limits: public sources only, no access behind login
 
 ## Contributing
 
-Agents are Markdown files with YAML frontmatter under `plugins/<plugin>/agents/`; shared knowledge and commands are `plugins/<plugin>/skills/<name>/SKILL.md`. See `CLAUDE.md` for the conventions and `CHANGELOG.md` for what changed. Run `scripts/check.sh` before opening a pull request (it validates manifests, self-tests the scripts and renders the templates and examples), `scripts/check-sources.sh` when you touch a source URL, and `scripts/smoke.sh` for a real end-to-end run (a non-interactive Claude session loads the plugin, the agent pulls Portal BASE through the script, and the answer is compared with an independent computation; it uses API credits). Investigation working files (`investigations/`, `docs_cache/`, PDFs) are gitignored; keep case material out of this repo.
+Agents are Markdown files with YAML frontmatter under `plugins/<plugin>/agents/`; shared knowledge and commands are `plugins/<plugin>/skills/<name>/SKILL.md`. See `CLAUDE.md` for the conventions and `CHANGELOG.md` for what changed. Run `scripts/check.sh` before opening a pull request (it validates manifests, self-tests the scripts and renders the templates and examples), `scripts/check-sources.sh` when you touch a source URL, `claude plugin eval plugins/<plugin> --trust-plugin --no-publish` for the eval cases under each plugin's `evals/` (five cases across five plugins, all passing on 2026-09-13: source routing, confidence scale, web archives, map form, evidence-log rows), and `scripts/smoke.sh` for a real end-to-end run (a non-interactive Claude session loads the plugin, the agent pulls Portal BASE through the script, and the answer is compared with an independent computation; it uses API credits). Investigation working files (`investigations/`, `docs_cache/`, PDFs) are gitignored; keep case material out of this repo.
 
 ## License
 

@@ -1,6 +1,6 @@
 ---
 name: pt-sources
-description: Directory of Portuguese public-record sources for investigations - what each holds, the URL, the free API or query URL where one exists, and whether WebFetch can read it or a browser is needed. Use when deciding where to look for a Portuguese law, company, contract, court decision, official's declaration or public dataset.
+description: Directory of Portuguese public-record sources for investigations - what each holds, the URL, the free API or query URL where one exists, and whether WebFetch can read it or a browser is needed. Use whenever a reporter asks where to find a Portuguese law, company record, public contract, court decision, official's declaration of interests, party accounts, media ownership or public dataset, or whether a site can be fetched. Em português - "onde procuro", "onde consulto", "que fonte uso para", "há dados abertos sobre".
 user-invocable: false
 ---
 

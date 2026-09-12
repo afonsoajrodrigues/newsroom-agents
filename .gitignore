@@ -7,3 +7,4 @@ investigations/
 __pycache__/
 .render-check/
 node_modules/
+evals/results/

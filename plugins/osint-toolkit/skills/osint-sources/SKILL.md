@@ -1,6 +1,6 @@
 ---
 name: osint-sources
-description: Map of free open-source investigation tools by task (reverse image search, geolocation, archives, domains, social media, transport, sanctions) with what each is good for. Use when choosing a tool for a verification step.
+description: Map of free open-source investigation tools by task (reverse image search, geolocation, web archives including Arquivo.pt, domains, social media, transport, sanctions) with what each is good for. Use whenever a reporter asks where to find an old or deleted web page, how to verify an image or video, who owns a domain, or which tool to use for any verification step. Em português - "onde encontro uma versão antiga desta página", "como verifico esta foto", "quem é o dono deste domínio".
 user-invocable: false
 ---
 

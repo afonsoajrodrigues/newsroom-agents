@@ -1,6 +1,6 @@
 ---
 name: evidence-log
-description: Conventions for the investigation evidence log (evidence-log.md), the single ledger every finding must be entered in before it can be used in a story. Use when recording, citing, or auditing evidence.
+description: Conventions for the investigation evidence log (evidence-log.md), the single ledger every finding must be entered in before it can be used in a story. Use when recording, citing, or auditing evidence, or when asked how to log a source. Em português - "regista isto no registo de provas", "como cito esta fonte", "o que falta no evidence log".
 user-invocable: false
 ---
 

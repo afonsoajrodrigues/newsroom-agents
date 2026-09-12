@@ -25,7 +25,7 @@ Dois resultados produzidos de ponta a ponta com dados públicos reais em 2026-09
 /plugin install document-tools@newsroom-agents
 ```
 
-Cada plugin funciona sozinho. Comece pelo `newsroom-core`: sabe usar os outros quando estão instalados.
+Cada plugin funciona sozinho. Comece pelo `newsroom-core`: sabe usar os outros quando estão instalados. Instalar os sete acrescenta cerca de 4 300 tokens a cada sessão (`claude plugin details <plugin>@newsroom-agents`); o prompt completo de um agente só é carregado quando ele é chamado. O caminho de instalação acima foi testado contra este repositório em 2026-09-13.
 
 ## O que inclui
 
@@ -73,7 +73,7 @@ Todos os agentes têm limites explícitos: só fontes públicas, nenhum acesso a
 
 ## Contribuir
 
-Os agentes são ficheiros Markdown com frontmatter YAML em `plugins/<plugin>/agents/`; conhecimento partilhado e comandos são `plugins/<plugin>/skills/<nome>/SKILL.md`. Veja o `CLAUDE.md` para as convenções e o `CHANGELOG.md` para o que mudou. Corra o `scripts/check.sh` antes de abrir um pull request (valida os manifestos, testa os scripts e renderiza os templates e os exemplos), o `scripts/check-sources.sh` quando alterar um URL de fonte, e o `scripts/smoke.sh` para um teste real de ponta a ponta (uma sessão não interativa do Claude carrega o plugin, o agente extrai o Portal BASE através do script e a resposta é comparada com um cálculo independente; gasta créditos de API). Os ficheiros de trabalho das investigações (`investigations/`, `docs_cache/`, PDFs) estão no gitignore; mantenha o material dos casos fora deste repositório.
+Os agentes são ficheiros Markdown com frontmatter YAML em `plugins/<plugin>/agents/`; conhecimento partilhado e comandos são `plugins/<plugin>/skills/<nome>/SKILL.md`. Veja o `CLAUDE.md` para as convenções e o `CHANGELOG.md` para o que mudou. Corra o `scripts/check.sh` antes de abrir um pull request (valida os manifestos, testa os scripts e renderiza os templates e os exemplos), o `scripts/check-sources.sh` quando alterar um URL de fonte, `claude plugin eval plugins/<plugin> --trust-plugin --no-publish` para os casos de avaliação em `evals/` de cada plugin (cinco casos em cinco plugins, todos a passar em 2026-09-13: escolha de fonte, escala de confiança, arquivos web, forma do mapa, linhas do registo de provas), e o `scripts/smoke.sh` para um teste real de ponta a ponta (uma sessão não interativa do Claude carrega o plugin, o agente extrai o Portal BASE através do script e a resposta é comparada com um cálculo independente; gasta créditos de API). Os ficheiros de trabalho das investigações (`investigations/`, `docs_cache/`, PDFs) estão no gitignore; mantenha o material dos casos fora deste repositório.
 
 ## Licença
 

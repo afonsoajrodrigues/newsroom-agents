@@ -1,6 +1,6 @@
 ---
 name: verification-standards
-description: The desk's shared verification standard - confidence scale, source independence test, primary-source rule and citation format. Use whenever rating a claim, counting sources, or writing up evidence.
+description: The desk's shared verification standard - confidence scale, source independence test, primary-source rule and citation format. Use whenever rating a claim, counting sources, deciding whether two reports are independent, or writing up evidence. Em português - "isto conta como duas fontes", "que grau de confiança", "posso dar isto como confirmado".
 user-invocable: false
 ---
 

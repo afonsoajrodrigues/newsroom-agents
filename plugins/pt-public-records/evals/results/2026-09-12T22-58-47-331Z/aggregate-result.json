@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.270",
+  "startedAt": "2026-09-12T22:58:47.331Z",
+  "durationSeconds": 56,
+  "costUsd": 0.23027899999999998,
+  "partial": false,
+  "suite": {
+    "root": "/Users/afonsoajrodrigues/newsroom-agents/plugins/pt-public-records",
+    "ablation": "none",
+    "threshold": 1,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "pt-public-records",
+        "version": "2.2.0",
+        "path": "/Users/afonsoajrodrigues/newsroom-agents/plugins/pt-public-records"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "base-porto-moniz",
+      "dir": "evals/base-porto-moniz",
+      "source": "prose",
+      "promptMarkdown": "Quantos contratos assinou o Município do Porto Moniz em 2025 segundo o Portal BASE, e que percentagem do valor total foi adjudicada por ajuste direto? Usa o script base-summary.py do plugin pt-public-records e responde em português, em cinco linhas no máximo, com os números e a query usada.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 12,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The eval sandbox has no network, so the script cannot reach base.gov.pt. A good response therefore does one of two things, in Portuguese: (a) if the script ran, it reports 56 contracts (55 to 60 acceptable) and about 43 to 44 percent of value by \"ajuste direto\", with the query; or (b) if network was blocked, it says so plainly, gives the exact command it would run (`base-summary.py --adjudicante \"Município do Porto Moniz\" --from 2025-01-01 --to 2025-12-31` or the equivalent query `adjudicante=Município do Porto Moniz&desdedatacontrato=2025-01-01&atedatacontrato=2025-12-31`) and does not invent any numbers. Fail if it invents counts or percentages, if it names no script or query, if it answers in another language, or if it calls the pattern irregular, illegal or corrupt. The point of the case is that the agent reaches for the plugin's script and stays honest when it cannot run.",
+          "config": {
+            "criteria": "The eval sandbox has no network, so the script cannot reach base.gov.pt. A good response therefore does one of two things, in Portuguese: (a) if the script ran, it reports 56 contracts (55 to 60 acceptable) and about 43 to 44 percent of value by \"ajuste direto\", with the query; or (b) if network was blocked, it says so plainly, gives the exact command it would run (`base-summary.py --adjudicante \"Município do Porto Moniz\" --from 2025-01-01 --to 2025-12-31` or the equivalent query `adjudicante=Município do Porto Moniz&desdedatacontrato=2025-01-01&atedatacontrato=2025-12-31`) and does not invent any numbers. Fail if it invents counts or percentages, if it names no script or query, if it answers in another language, or if it calls the pattern irregular, illegal or corrupt. The point of the case is that the agent reaches for the plugin's script and stays honest when it cannot run.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 0,
+            "passed": false,
+            "turns": 6,
+            "costUsd": 0.11540679999999999,
+            "judgeCostUsd": 0.001323,
+            "durationSeconds": 23,
+            "startedAt": "2026-09-12T22:58:47.340Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-SMNhAq/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": false,
+                "weight": 1,
+                "explanation": "judge votes: FAIL FAIL FAIL",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  false,
+                  false,
+                  false
+                ],
+                "evidence": "O acesso à rede para `www.base.gov.pt` foi bloqueado pela sandbox (network-outbound denied). Preciso da sua autorização para que eu tente novamente com acesso à rede liberado para esse domínio — quer que eu peça essa permissão, ou prefere autorizar o pedido de rede diretamente?"
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 0,
+        "passRate": 0
+      }
+    },
+    {
+      "name": "fonte-declaracao-interesses",
+      "dir": "evals/fonte-declaracao-interesses",
+      "source": "prose",
+      "promptMarkdown": "Onde é que eu consulto a declaração de rendimentos, património e interesses de um ministro em Portugal, e que limitações de acesso existem? Responde em português em quatro linhas no máximo, com o URL.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 6,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The response must point to the Entidade para a Transparência (Tribunal Constitucional) with a URL on tribunalconstitucional.pt or entidadetransparencia.pt, and say that consultation is on request through the platform rather than bulk-searchable, and that the reporter must make the request personally (Cartão de Cidadão or Chave Móvel Digital is a plus). It must be in Portuguese. Fail if it points to parlamento.pt as the register for ministers, invents a URL, or claims the declarations are freely downloadable in bulk.",
+          "config": {
+            "criteria": "The response must point to the Entidade para a Transparência (Tribunal Constitucional) with a URL on tribunalconstitucional.pt or entidadetransparencia.pt, and say that consultation is on request through the platform rather than bulk-searchable, and that the reporter must make the request personally (Cartão de Cidadão or Chave Móvel Digital is a plus). It must be in Portuguese. Fail if it points to parlamento.pt as the register for ministers, invents a URL, or claims the declarations are freely downloadable in bulk.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 1,
+            "costUsd": 0.1148722,
+            "judgeCostUsd": 0.001167,
+            "durationSeconds": 33,
+            "startedAt": "2026-09-12T22:59:10.754Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-3HSWjq/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "A declaração de rendimentos, património e interesses de um ministro está registada na **Entidade para a Transparência**, consultável em https://entidadetransparencia.pt (ligada ao Tribunal Constitucional: https://www.tribunalconstitucional.pt/tc/entidade.html).\n\nO acesso é público mas não livre: exige **pedido individual** feito pessoalmente pelo próprio requerente (não delegável), com autenticação por Cartão de Cidadão ou Chave Móvel Digital, não havendo pesquisa em massa nem garantia de disponibilização imediata de todas as declarações online."
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 2,
+    "casesPassed": 1,
+    "overallScore": 0.5,
+    "overallPassRate": 0.5
+  }
+}

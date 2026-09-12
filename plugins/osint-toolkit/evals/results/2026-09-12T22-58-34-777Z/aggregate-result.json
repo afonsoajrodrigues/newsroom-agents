@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.270",
+  "startedAt": "2026-09-12T22:58:34.777Z",
+  "durationSeconds": 12,
+  "costUsd": 0.06091320000000001,
+  "partial": false,
+  "suite": {
+    "root": "/Users/afonsoajrodrigues/newsroom-agents/plugins/osint-toolkit",
+    "ablation": "none",
+    "threshold": 1,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "osint-toolkit",
+        "version": "2.2.0",
+        "path": "/Users/afonsoajrodrigues/newsroom-agents/plugins/osint-toolkit"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "pagina-antiga-pt",
+      "dir": "evals/pagina-antiga-pt",
+      "source": "prose",
+      "promptMarkdown": "Uma câmara municipal apagou uma notícia do site dela em 2019. Onde posso encontrar uma cópia antiga da página e como registo isso como prova? Responde em português em cinco linhas no máximo, com os URLs.",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 6,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 1,
+          "graderMarkdown": "The response must name both the Wayback Machine (web.archive.org) and Arquivo.pt (arquivo.pt), the Portuguese web archive, as places to look for old captures, and must say to preserve the evidence with the plugin's archive.sh script or the web-archiver agent (local copy, sha256, archive links, log line). Mentioning archive.ph as a third option is fine. It must be in Portuguese. Fail if Arquivo.pt is missing, if it suggests accessing anything behind a login, or if it invents a URL that is not on web.archive.org, arquivo.pt or archive.ph.",
+          "config": {
+            "criteria": "The response must name both the Wayback Machine (web.archive.org) and Arquivo.pt (arquivo.pt), the Portuguese web archive, as places to look for old captures, and must say to preserve the evidence with the plugin's archive.sh script or the web-archiver agent (local copy, sha256, archive links, log line). Mentioning archive.ph as a third option is fine. It must be in Portuguese. Fail if Arquivo.pt is missing, if it suggests accessing anything behind a login, or if it invents a URL that is not on web.archive.org, arquivo.pt or archive.ph.",
+            "focus": "last_message"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 3,
+            "costUsd": 0.06091320000000001,
+            "judgeCostUsd": 0.00141,
+            "durationSeconds": 12,
+            "startedAt": "2026-09-12T22:58:34.786Z",
+            "error": null,
+            "tracePath": "/private/tmp/e-GHrwkk/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 1,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "Para uma página de câmara municipal apagada em 2019, procure primeiro no Wayback Machine (`https://web.archive.org/web/2019*/URL-da-página`) e no Arquivo.pt (`https://arquivo.pt/wayback/*/URL-da-página`), que cobre bem sites .pt. Para registar como prova: guarde a captura (URL do snapshot + timestamp), tire um PDF/screenshot da página arquivada, calcule o hash SHA-256 do ficheiro guardado e anote data/hora da recolha e ferramenta usada num log de evidências. Se não houver captura, pode usar `https://web.archive.org/cdx/search/cdx?url=URL&output=json` para confirmar se alguma vez foi indexada. Recomendo usar o agente `web-archiver` para automatizar este arquivo e registo — quer que o acione agora com o URL específico da notícia?"
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 1,
+    "casesPassed": 1,
+    "overallScore": 1,
+    "overallPassRate": 1
+  }
+}

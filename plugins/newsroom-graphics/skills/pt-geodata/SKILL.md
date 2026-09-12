@@ -1,6 +1,6 @@
 ---
 name: pt-geodata
-description: Where to get and how to prepare boundaries and geodata for Portuguese and international maps - CAOP (official municipalities and parishes), NUTS, world layers, join codes, projections and insets for the islands. Use when building any map.
+description: Where to get and how to prepare boundaries and geodata for Portuguese and international maps - CAOP (official municipalities and parishes), NUTS, world layers, join codes, projections and insets for the islands. Use when building any map or when asked where to get Portuguese municipality or parish boundaries, NUTS or world layers, or how to join statistics to them. Em português - "onde arranjo os limites dos concelhos", "shapefile das freguesias", "CAOP", "mapa por concelho".
 user-invocable: false
 ---
 
