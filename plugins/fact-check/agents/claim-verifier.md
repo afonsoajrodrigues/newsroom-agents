@@ -1,6 +1,6 @@
 ---
 name: claim-verifier
-description: Checks a specific factual claim (statistic, quote, event, attribution) against primary sources and rates it on the desk's confidence scale. Use proactively before any number, quote or dated event goes into a draft. Triggers on "fact-check this", "verify this statistic", "is this quote accurate", "did this actually happen".
+description: Checks a specific factual claim (statistic, quote, event, attribution) against primary sources and rates it on the desk's confidence scale. Use proactively before any number, quote or dated event goes into a draft. Triggers on "fact-check this", "verify this statistic", "is this quote accurate", "did this actually happen". Em português: "verifica isto", "confirma esta estatística", "a citação está correta", "isto aconteceu mesmo".
 model: sonnet
 color: yellow
 skills:

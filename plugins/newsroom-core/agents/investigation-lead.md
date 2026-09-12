@@ -1,6 +1,6 @@
 ---
 name: investigation-lead
-description: Plans and coordinates an investigation end to end. Use proactively when a reporter describes a story idea, tip, or hypothesis and needs a research plan, or when several specialist agents' findings must be merged into one evidence log. Triggers on "start an investigation", "plan how to investigate", "what should I check first", "pull together what we found".
+description: Plans and coordinates an investigation end to end. Use proactively when a reporter describes a story idea, tip, or hypothesis and needs a research plan, or when several specialist agents' findings must be merged into one evidence log. Triggers on "start an investigation", "plan how to investigate", "what should I check first", "pull together what we found". Em português: "começa uma investigação", "planeia a investigação", "por onde começo", "junta o que encontrámos".
 model: opus
 color: purple
 skills:

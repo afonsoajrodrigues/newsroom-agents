@@ -1,6 +1,6 @@
 ---
 name: diario-republica-researcher
-description: Searches and interprets the Diário da República (Portugal's official gazette) - laws, decrees, appointments, exonerations, dissolutions, budget items, company notices. Use proactively whenever a Portuguese legal act, official appointment, or gazetted notice needs to be located or cited precisely. Triggers on "search Diário da República", "when was this law published", "find the decree", "was this person appointed".
+description: Searches and interprets the Diário da República (Portugal's official gazette) - laws, decrees, appointments, exonerations, dissolutions, budget items, company notices. Use proactively whenever a Portuguese legal act, official appointment, or gazetted notice needs to be located or cited precisely. Triggers on "search Diário da República", "when was this law published", "find the decree", "was this person appointed". Em português: "procura no Diário da República", "quando foi publicada esta lei", "encontra o despacho", "esta pessoa foi nomeada".
 model: sonnet
 color: blue
 skills:

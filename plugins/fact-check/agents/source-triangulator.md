@@ -1,6 +1,6 @@
 ---
 name: source-triangulator
-description: Finds independent corroboration for single-source claims and reconciles conflicting accounts, assessing source independence and reliability. Use proactively when a story rests on one source or when two accounts disagree. Triggers on "find another source for this", "corroborate this", "these sources disagree", "is this source reliable".
+description: Finds independent corroboration for single-source claims and reconciles conflicting accounts, assessing source independence and reliability. Use proactively when a story rests on one source or when two accounts disagree. Triggers on "find another source for this", "corroborate this", "these sources disagree", "is this source reliable". Em português: "encontra outra fonte", "corrobora isto", "as fontes contradizem-se", "esta fonte é fiável".
 model: sonnet
 color: yellow
 skills:

@@ -72,7 +72,7 @@ function draw(fc) {
     .attr("fill", d => byCode.has(String(d.properties[CODE])) ? color(byCode.get(String(d.properties[CODE]))) : "var(--nodata)")
     .attr("tabindex", 0).attr("aria-label", d => `${d.properties[NAME]}: ${byCode.has(String(d.properties[CODE])) ? fmt(byCode.get(String(d.properties[CODE]))) : "sem dados"}`)
     .on("mousemove", (ev, d) => show(ev, d)).on("focus", (ev, d) => show({ clientX: 20, clientY: 20 }, d)).on("mouseleave blur", () => tip.style("opacity", 0));
-  const LABEL_DX = { "Porto Santo": [0, -14], "Funchal": [6, 14], "Santa Cruz": [14, 12], "Câmara de Lobos": [-34, 2], "Ribeira Brava": [8, 12], "Ponta do Sol": [-14, 10], "Porto Moniz": [10, -10] };
+  const LABEL_DX = { "Porto Santo": [0, -14], "Funchal": [30, 16], "Santa Cruz": [16, 14], "Câmara de Lobos": [6, 44], "Ribeira Brava": [-10, 30], "Ponta do Sol": [-36, 18], "Porto Moniz": [10, -10] };
   svg.append("g").selectAll("text").data(fc.features).join("text").attr("class", "label halo").attr("text-anchor", "middle")
     .attr("x", d => path.centroid(d)[0] + (LABEL_DX[d.properties[NAME]]?.[0] || 0)).attr("y", d => path.centroid(d)[1] + (LABEL_DX[d.properties[NAME]]?.[1] || 0))
     .attr("dy", "0.35em").text(d => d.properties[NAME]);

@@ -32,12 +32,12 @@ Cada plugin funciona sozinho. Comece pelo `newsroom-core`: sabe usar os outros q
 | Plugin | Agentes | Comandos, skills e scripts |
 |---|---|---|
 | `newsroom-core` | `investigation-lead` (planeia, delega, mantém o registo de provas), `timeline-builder`, `data-analyst`, `prepublication-reviewer` | `/newsroom-core:start-investigation <slug>` cria a pasta do caso; convenções do `evidence-log`; um hook que regista todos os URLs consultados em `investigations/access-log.tsv` |
-| `pt-public-records` | `diario-republica-researcher`, `court-records-pt`, `procurement-watchdog`, `transparency-registers` | `/pt-public-records:lada-request <entidade> <documentos>` redige um pedido ao abrigo da Lei 26/2016; `pt-sources`, diretório verificado de mais de 60 fontes portuguesas com os endpoints gratuitos e os URLs de pesquisa da DGSI; `base-search.sh` consulta o Portal BASE em JSON; `base-summary.py` extrai todos os contratos de uma entidade para CSV com resumo |
+| `pt-public-records` | `diario-republica-researcher`, `court-records-pt`, `procurement-watchdog`, `transparency-registers` | `/pt-public-records:lada-request <entidade> <documentos>` redige um pedido ao abrigo da Lei 26/2016; `/pt-public-records:base-summary <entidade>` extrai os contratos de uma entidade ou fornecedor para CSV com resumo; `pt-sources`, diretório verificado de mais de 60 fontes portuguesas com os endpoints gratuitos e os URLs de pesquisa da DGSI; `base-search.sh` consulta o Portal BASE em JSON; `base-summary.py` extrai todos os contratos de uma entidade para CSV com resumo |
 | `newsroom-graphics` | `chart-builder` (gráficos D3), `map-builder` (coropletos, símbolos, mapas de localização com limites CAOP), `graphics-reviewer` | `/newsroom-graphics:new-graphic <slug> [chart\|map]` cria um gráfico a partir de templates testados; skills `viz-standards` (paleta validada para daltonismo, formatos pt-PT, checklist) e `pt-geodata`; `geo-prep.py` (qualquer ficheiro vetorial para TopoJSON simplificado); `render-check.mjs` (executa o gráfico em jsdom, verifica as regras e exporta um SVG autónomo) |
 | `osint-toolkit` | `osint-researcher`, `image-geolocation`, `social-media-investigator`, `web-archiver` | mapa de ferramentas `osint-sources`; `archive.sh` guarda a página, calcula o hash, pede uma captura ao Wayback e consulta o Arquivo.pt |
 | `fact-check` | `claim-verifier`, `source-triangulator` | `verification-standards`: escala de confiança e teste de independência das fontes |
 | `financial-corporate` | `corporate-structure-mapper`, `offshore-leaks-researcher` | fluxos com GLEIF, Publicações MJ, RCBE, Companies House, ICIJ, OpenSanctions |
-| `document-tools` | `pdf-archivist` | `pdf2md.py` converte PDF em Markdown com cache e OCR de recurso; um hook que impede a leitura direta de PDFs |
+| `document-tools` | `pdf-archivist` | `pdf2md.py` converte PDF em Markdown com cache e OCR de recurso; `scrub.sh` remove metadados de ficheiros antes de serem partilhados; um hook que impede a leitura direta de PDFs |
 
 ## Uma investigação típica
 
@@ -51,7 +51,7 @@ Também pode simplesmente pedir em linguagem corrente:
 
 > "Verifica se esta foto do protesto foi mesmo tirada em Lisboa esta semana"
 
-O Claude encaminha o pedido para o `image-geolocation` a partir da descrição. Para forçar um especialista: "usa o agente court-records-pt".
+O Claude encaminha o pedido para o `image-geolocation` a partir da descrição; todas as descrições dos agentes incluem as frases em português que os jornalistas realmente escrevem. Para forçar um especialista: "usa o agente court-records-pt".
 
 ## Fontes verificadas
 

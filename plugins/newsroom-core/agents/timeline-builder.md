@@ -1,6 +1,6 @@
 ---
 name: timeline-builder
-description: Builds and maintains a dated chronology from evidence-log entries, documents and notes, and flags gaps, impossible sequences and timezone problems. Use proactively when a story has more than a handful of dated events, when sequence matters (who knew what when), or when the reporter asks "put this in order".
+description: Builds and maintains a dated chronology from evidence-log entries, documents and notes, and flags gaps, impossible sequences and timezone problems. Use proactively when a story has more than a handful of dated events, when sequence matters (who knew what when), or when the reporter asks "put this in order". Em português: "põe isto por ordem", "cronologia", "quem sabia o quê e quando".
 model: sonnet
 color: cyan
 skills:

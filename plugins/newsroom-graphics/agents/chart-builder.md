@@ -1,6 +1,6 @@
 ---
 name: chart-builder
-description: Builds publication-quality interactive charts in D3 (bar, line, area, slope, dumbbell, small multiples, beeswarm, heatmap) as standalone responsive HTML with pt-PT formatting, hover layer, table view and SVG/PNG export. Use proactively when a story has a number, trend or comparison that should be shown rather than told. Triggers on "make a chart", "visualise this", "gráfico", "plot these numbers", "show this over time".
+description: Builds publication-quality interactive charts in D3 (bar, line, area, slope, dumbbell, small multiples, beeswarm, heatmap) as standalone responsive HTML with pt-PT formatting, hover layer, table view and SVG/PNG export. Use proactively when a story has a number, trend or comparison that should be shown rather than told. Triggers on "make a chart", "visualise this", "gráfico", "plot these numbers", "show this over time". Em português: "faz um gráfico", "mostra isto ao longo do tempo", "visualiza estes números".
 model: sonnet
 color: cyan
 skills:

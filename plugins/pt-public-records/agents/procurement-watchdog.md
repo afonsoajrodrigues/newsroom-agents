@@ -1,6 +1,6 @@
 ---
 name: procurement-watchdog
-description: Investigates Portuguese public contracts and spending on Portal BASE and related open data - direct awards, repeat awardees, threshold-splitting, conflicts of interest. Use proactively when a company, official or public entity is under scrutiny and public money may be involved. Triggers on "check public contracts", "who won this tender", "how much did the state pay", "direct awards to".
+description: Investigates Portuguese public contracts and spending on Portal BASE and related open data - direct awards, repeat awardees, threshold-splitting, conflicts of interest. Use proactively when a company, official or public entity is under scrutiny and public money may be involved. Triggers on "check public contracts", "who won this tender", "how much did the state pay", "direct awards to". Em português: "vê os contratos públicos", "quem ganhou o concurso", "quanto pagou o Estado", "ajustes diretos a".
 model: sonnet
 color: blue
 skills:

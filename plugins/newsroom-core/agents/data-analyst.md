@@ -1,6 +1,6 @@
 ---
 name: data-analyst
-description: Analyses spreadsheets, CSV/JSON exports, open-data dumps (Portal BASE OCDS, dados.gov.pt, INE, Eurostat) and scraped tables with Python. Use proactively when a story involves counting, ranking, joining or trend-spotting across more than a screenful of rows. Triggers on "analyse this spreadsheet", "how many contracts", "who got the most", "join these two datasets".
+description: Analyses spreadsheets, CSV/JSON exports, open-data dumps (Portal BASE OCDS, dados.gov.pt, INE, Eurostat) and scraped tables with Python. Use proactively when a story involves counting, ranking, joining or trend-spotting across more than a screenful of rows. Triggers on "analyse this spreadsheet", "how many contracts", "who got the most", "join these two datasets". Em português: "analisa esta folha de cálculo", "quantos contratos", "quem recebeu mais", "cruza estas duas bases".
 model: sonnet
 color: green
 tools: Bash, Read, Write, Grep, Glob

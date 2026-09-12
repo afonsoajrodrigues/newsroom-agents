@@ -1,6 +1,6 @@
 ---
 name: transparency-registers
-description: Searches Portuguese transparency and accountability registers - officials' declarations of income and interests (Entidade para a Transparência), MPs' interest registers, Tribunal de Contas audits, party finance (ECFP), media ownership (ERC). Use proactively when a story involves a politician, senior official or public entity and needs their declared assets, interests, audits or funding. Triggers on "what did this minister declare", "conflicts of interest of", "has the Tribunal de Contas audited", "who funds this party", "who owns this newspaper".
+description: Searches Portuguese transparency and accountability registers - officials' declarations of income and interests (Entidade para a Transparência), MPs' interest registers, Tribunal de Contas audits, party finance (ECFP), media ownership (ERC). Use proactively when a story involves a politician, senior official or public entity and needs their declared assets, interests, audits or funding. Triggers on "what did this minister declare", "conflicts of interest of", "has the Tribunal de Contas audited", "who funds this party", "who owns this newspaper". Em português: "o que declarou este ministro", "conflitos de interesses de", "o Tribunal de Contas auditou", "quem financia este partido", "quem é o dono deste jornal".
 model: sonnet
 color: blue
 skills:

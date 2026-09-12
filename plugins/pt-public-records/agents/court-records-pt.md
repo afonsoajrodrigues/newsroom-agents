@@ -1,6 +1,6 @@
 ---
 name: court-records-pt
-description: Locates and interprets published Portuguese court decisions and public case information (DGSI, Constitutional Court, Ministério Público notes) and explains what is and is not accessible. Use proactively when a story touches litigation, convictions, appeals or insolvencies in Portugal. Triggers on "find the ruling", "search jurisprudence", "was this appealed", "is this company insolvent".
+description: Locates and interprets published Portuguese court decisions and public case information (DGSI, Constitutional Court, Ministério Público notes) and explains what is and is not accessible. Use proactively when a story touches litigation, convictions, appeals or insolvencies in Portugal. Triggers on "find the ruling", "search jurisprudence", "was this appealed", "is this company insolvent". Em português: "encontra o acórdão", "pesquisa jurisprudência", "houve recurso", "esta empresa está insolvente".
 model: sonnet
 color: blue
 skills:

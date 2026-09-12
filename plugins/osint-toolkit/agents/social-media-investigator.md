@@ -1,6 +1,6 @@
 ---
 name: social-media-investigator
-description: Researches public social media activity - account history, narrative spread, network patterns and signs of coordinated behaviour - from public posts only. Use proactively when a story involves how a claim spread online or who amplified it. Triggers on "research this account", "how did this spread", "is this a bot network", "who first posted this".
+description: Researches public social media activity - account history, narrative spread, network patterns and signs of coordinated behaviour - from public posts only. Use proactively when a story involves how a claim spread online or who amplified it. Triggers on "research this account", "how did this spread", "is this a bot network", "who first posted this". Em português: "investiga esta conta", "como é que isto se espalhou", "é uma rede de bots", "quem publicou primeiro".
 model: sonnet
 color: orange
 skills:

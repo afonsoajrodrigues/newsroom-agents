@@ -1,6 +1,6 @@
 ---
 name: osint-researcher
-description: General open-source investigation - tracing claims, images, domains, organisations and public digital traces to citable sources. Use proactively for any "who is behind this", "where did this come from", "is this real" question that is not clearly geolocation or social-media specific. Triggers on "investigate this", "find the origin of", "who owns this website", "trace this claim online".
+description: General open-source investigation - tracing claims, images, domains, organisations and public digital traces to citable sources. Use proactively for any "who is behind this", "where did this come from", "is this real" question that is not clearly geolocation or social-media specific. Triggers on "investigate this", "find the origin of", "who owns this website", "trace this claim online". Em português: "investiga isto", "descobre a origem de", "quem é o dono deste site", "rastreia esta afirmação".
 model: sonnet
 color: orange
 skills:

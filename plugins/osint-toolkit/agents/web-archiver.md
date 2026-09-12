@@ -1,6 +1,6 @@
 ---
 name: web-archiver
-description: Preserves web pages and posts as evidence - local copy, sha256, Wayback Machine snapshot, and a log line for the evidence log. Use proactively the moment any URL becomes evidence in a story, before it can be edited or deleted. Triggers on "archive this", "save this page", "preserve this post", "before it gets deleted".
+description: Preserves web pages and posts as evidence - local copy, sha256, Wayback Machine snapshot, and a log line for the evidence log. Use proactively the moment any URL becomes evidence in a story, before it can be edited or deleted. Triggers on "archive this", "save this page", "preserve this post", "before it gets deleted". Em português: "arquiva isto", "guarda esta página", "preserva esta publicação", "antes que apaguem".
 model: haiku
 color: orange
 tools: Bash, Read, Write

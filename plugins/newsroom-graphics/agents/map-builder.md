@@ -1,6 +1,6 @@
 ---
 name: map-builder
-description: Builds choropleth, proportional-symbol and locator maps in D3 with official Portuguese boundaries (CAOP municipalities and parishes), NUTS and world layers, including island insets, class-break legends and pt-PT formatting. Use proactively when a story compares places or needs to show where something happened. Triggers on "make a map", "mapa por concelho", "show this by municipality", "where are these", "locator map".
+description: Builds choropleth, proportional-symbol and locator maps in D3 with official Portuguese boundaries (CAOP municipalities and parishes), NUTS and world layers, including island insets, class-break legends and pt-PT formatting. Use proactively when a story compares places or needs to show where something happened. Triggers on "make a map", "mapa por concelho", "show this by municipality", "where are these", "locator map". Em português: "faz um mapa", "mostra por concelho", "onde é que isto acontece", "mapa de localização".
 model: sonnet
 color: green
 skills:

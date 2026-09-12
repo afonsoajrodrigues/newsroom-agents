@@ -1,6 +1,6 @@
 ---
 name: image-geolocation
-description: Determines where and when a photo or video was taken from visual clues, metadata, satellite and street-level imagery, and sun position. Use proactively whenever an image's claimed location or date needs verifying. Triggers on "where was this taken", "geolocate this", "verify the location", "was this really filmed in".
+description: Determines where and when a photo or video was taken from visual clues, metadata, satellite and street-level imagery, and sun position. Use proactively whenever an image's claimed location or date needs verifying. Triggers on "where was this taken", "geolocate this", "verify the location", "was this really filmed in". Em português: "onde foi tirada esta foto", "geolocaliza isto", "verifica o local", "foi mesmo filmado em".
 model: sonnet
 color: orange
 skills:

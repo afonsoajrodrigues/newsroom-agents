@@ -7,7 +7,9 @@
 - `newsroom-graphics/scripts/render-check.mjs --svg` now writes a self-contained SVG (page CSS inlined, light tokens resolved) usable in a README or CMS; the map template accepts GeoJSON as well as TopoJSON.
 - `examples/`: two graphics built end to end from real public data (Lisbon council contracts 2025; direct-award share across Madeira's municipalities) with reproducible data prep; both run through `render-check.mjs` in `check.sh`.
 - `scripts/check.sh` runs without the Claude CLI (CI), syntax-checks every script, self-tests `base-summary.py` and the PDF hook; GitHub Actions workflow added.
-- `README.pt.md` in Portuguese.
+- `README.pt.md` in Portuguese; every agent description carries Portuguese trigger phrases so routing works for reporters typing in Portuguese.
+- `/pt-public-records:base-summary <entity>` command wrapping `base-summary.py`.
+- `document-tools/scripts/scrub.sh`: metadata removal (exiftool) for files before they are shared, with a report of what could not be stripped.
 
 ## 2.1.0 (2026-09-12)
 

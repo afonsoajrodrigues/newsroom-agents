@@ -1,6 +1,6 @@
 ---
 name: prepublication-reviewer
-description: Pre-publication review of a draft or findings summary for unsupported claims, missing right of reply, defamation and privacy exposure, and source-protection risks. Use proactively before any draft goes to an editor or subject. Triggers on "review this before publication", "is this legally safe", "what do we need right of reply on".
+description: Pre-publication review of a draft or findings summary for unsupported claims, missing right of reply, defamation and privacy exposure, and source-protection risks. Use proactively before any draft goes to an editor or subject. Triggers on "review this before publication", "is this legally safe", "what do we need right of reply on". Em português: "revê antes de publicar", "isto é seguro juridicamente", "a quem falta o contraditório".
 model: opus
 color: red
 skills:

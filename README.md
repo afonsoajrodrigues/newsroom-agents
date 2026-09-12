@@ -32,12 +32,12 @@ Each plugin works on its own. `newsroom-core` is the one to start with; it knows
 | Plugin | Agents | Commands, skills and scripts |
 |---|---|---|
 | `newsroom-core` | `investigation-lead` (plans, delegates, keeps the evidence log), `timeline-builder`, `data-analyst`, `prepublication-reviewer` | `/newsroom-core:start-investigation <slug>` scaffolds a case folder; `evidence-log` conventions; a hook that logs every URL fetched to `investigations/access-log.tsv` |
-| `pt-public-records` | `diario-republica-researcher`, `court-records-pt`, `procurement-watchdog`, `transparency-registers` | `/pt-public-records:lada-request <entity> <docs>` drafts a Lei 26/2016 request; `pt-sources`, a verified directory of 60+ Portuguese sources with their free endpoints and DGSI search URLs; `base-search.sh` queries Portal BASE as JSON; `base-summary.py` pulls an entity's whole contract record into CSV plus a summary |
+| `pt-public-records` | `diario-republica-researcher`, `court-records-pt`, `procurement-watchdog`, `transparency-registers` | `/pt-public-records:lada-request <entity> <docs>` drafts a Lei 26/2016 request; `/pt-public-records:base-summary <entity>` pulls an entity's or supplier's contracts into CSV plus summary; `pt-sources`, a verified directory of 60+ Portuguese sources with their free endpoints and DGSI search URLs; `base-search.sh` queries Portal BASE as JSON; `base-summary.py` pulls an entity's whole contract record into CSV plus a summary |
 | `newsroom-graphics` | `chart-builder` (D3 charts), `map-builder` (choropleth, symbols, locator maps with CAOP boundaries), `graphics-reviewer` | `/newsroom-graphics:new-graphic <slug> [chart\|map]` scaffolds from tested templates; `viz-standards` (validated colorblind-safe palette, pt-PT formats, checklist) and `pt-geodata` skills; `geo-prep.py` (any vector file to simplified TopoJSON); `render-check.mjs` (executes the graphic in jsdom, checks the desk rules, exports a self-contained SVG) |
 | `osint-toolkit` | `osint-researcher`, `image-geolocation`, `social-media-investigator`, `web-archiver` | `osint-sources` tool map; `archive.sh` saves a page, hashes it, requests a Wayback snapshot and looks up Arquivo.pt |
 | `fact-check` | `claim-verifier`, `source-triangulator` | `verification-standards`: shared confidence scale and source-independence test |
 | `financial-corporate` | `corporate-structure-mapper`, `offshore-leaks-researcher` | GLEIF, Publicações MJ, RCBE, Companies House, ICIJ, OpenSanctions workflows |
-| `document-tools` | `pdf-archivist` | `pdf2md.py` cached PDF to Markdown with OCR fallback; a hook that blocks reading PDFs directly |
+| `document-tools` | `pdf-archivist` | `pdf2md.py` cached PDF to Markdown with OCR fallback; `scrub.sh` strips metadata from files before they are shared; a hook that blocks reading PDFs directly |
 
 ## A typical investigation
 
@@ -51,7 +51,7 @@ You can also just ask in plain language, in Portuguese or English:
 
 > "Verifica se esta foto do protesto foi mesmo tirada em Lisboa esta semana"
 
-Claude routes the task to `image-geolocation` from its description. To force a specialist: "usa o agente court-records-pt".
+Claude routes the task to `image-geolocation` from its description; every agent description carries the Portuguese phrases reporters actually type. To force a specialist: "usa o agente court-records-pt".
 
 ## Sources, verified
 

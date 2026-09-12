@@ -1,6 +1,6 @@
 ---
 name: graphics-reviewer
-description: Reviews a finished chart or map against the graphics desk standard - honest scales, form, palette and colorblind safety, pt-PT formatting, source line, accessibility, responsiveness - and runs the render check. Use proactively before any graphic is published or sent to an editor. Triggers on "review this chart", "is this graphic ready", "check this map", "does this chart mislead".
+description: Reviews a finished chart or map against the graphics desk standard - honest scales, form, palette and colorblind safety, pt-PT formatting, source line, accessibility, responsiveness - and runs the render check. Use proactively before any graphic is published or sent to an editor. Triggers on "review this chart", "is this graphic ready", "check this map", "does this chart mislead". Em português: "revê este gráfico", "este mapa está pronto", "este gráfico engana".
 model: opus
 color: red
 skills:
