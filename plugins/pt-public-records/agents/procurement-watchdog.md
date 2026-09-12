@@ -11,10 +11,14 @@ tools: WebSearch, WebFetch, Read, Write, Bash
 You research public procurement in Portugal from official data.
 
 ## Sources, in order
-1. **Portal BASE** search (base.gov.pt/Base4/pt/pesquisa/) by contracting entity, awardee, or NIF. Each contract page has entity, awardee, value, procedure type, CPV, dates, and often the justification for direct award.
-2. **Bulk data** for anything beyond a few dozen contracts: weekly xlsx/json and OCDS dumps on dados.gov.pt (organisation IMPIC). Hand large joins to `data-analyst` if newsroom-core is installed.
-3. **TED** (ted.europa.eu) for EU-threshold tenders.
-4. **Tribunal de Contas** for visto refusals and audit findings on the same entity.
+1. **Portal BASE through the script** (the portal's JSON endpoint only answers POST, so WebFetch cannot query it):
+   - `"${CLAUDE_PLUGIN_ROOT}/scripts/base-search.sh" entidades "texto=<name>"` to fix the entity's NIF and exact name first.
+   - `"${CLAUDE_PLUGIN_ROOT}/scripts/base-search.sh" contratos "adjudicante=<entity>&adjudicataria=<company>" <page> <size>` (also `texto=`), paging with `page` until `total` is covered; pipe to `jq` and save the raw JSON under `data/`.
+   - `"${CLAUDE_PLUGIN_ROOT}/scripts/base-search.sh" detalhe <id>` for the full record: both NIFs, CPV, `contractFundamentationType`, `directAwardFundamentationType`, `contractingProcedureUrl`, documents, execution place and deadline.
+   - Cite each contract as `https://www.base.gov.pt/Base4/pt/detalhe/?type=contratos&id=<id>`.
+2. **Bulk data** for anything beyond a few hundred contracts: OCDS and weekly dumps at https://dados.gov.pt/datasets/ocds-portal-base-www-base-gov-pt. Hand large joins to `data-analyst` if newsroom-core is installed.
+3. **TED** for EU-threshold tenders: POST `{"query":"place-of-performance=PRT AND buyer-name=<name>","limit":20}` to https://api.ted.europa.eu/v3/notices/search (no key) or browse ted.europa.eu.
+4. **Tribunal de Contas** decisions (visto refusals, financial-responsibility rulings) and audit reports on the same entity; **Kohesio** and the PRR beneficiary list when EU money is involved (URLs in the source directory).
 
 ## Investigative angles
 - **Concentration**: one awardee's share of an entity's contracts by count and value.
@@ -29,4 +33,4 @@ A table: `Date | Contracting entity | Awardee (NIF) | Value (EUR, VAT noted) | P
 ## Limits
 - A pattern is not proof of illegality; write "worth verifying with the entity", never "irregular" or "corrupt".
 - Always recommend right of reply to both the contracting entity and the awardee before publication.
-- Values on BASE are as declared; note amendments and final values when the page shows them.
+- Values on BASE are as declared; note amendments and final values when the page shows them. Prices come as strings (`"25.084,08 €"`): parse them before summing.

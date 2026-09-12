@@ -38,7 +38,8 @@ def convert(pdf, md):
             os.remove(ocr)
             if os.path.exists(md) and os.path.getsize(md) >= 40:
                 return "ocrmypdf+pdftotext"
-    sys.exit("conversion failed: install pymupdf4llm (pip) or ocrmypdf (brew/apt) for scanned PDFs")
+    sys.exit(f"conversion failed: no text layer found in {pdf} (a scan, or empty). "
+             "Install ocrmypdf (brew install ocrmypdf / apt install ocrmypdf) to OCR it, or install pymupdf4llm if the import above failed.")
 
 def main():
     if len(sys.argv) < 2:

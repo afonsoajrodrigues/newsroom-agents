@@ -23,8 +23,8 @@ Each plugin works on its own. `newsroom-core` is the one to start with; it knows
 |---|---|---|
 | `newsroom-core` | `investigation-lead` (plans, delegates, keeps the evidence log), `timeline-builder`, `data-analyst`, `prepublication-reviewer` | `/newsroom-core:start-investigation <slug>` scaffolds a case folder; `evidence-log` conventions |
 | `newsroom-graphics` | `chart-builder` (D3 charts), `map-builder` (choropleth, symbols, locator maps with CAOP boundaries), `graphics-reviewer` | `/newsroom-graphics:new-graphic <slug> [chart\|map]` scaffolds from tested templates; `viz-standards` and `pt-geodata` skills; `scripts/geo-prep.py` (any vector file to simplified TopoJSON), `scripts/render-check.mjs` (executes the graphic in jsdom and checks the desk rules) |
-| `osint-toolkit` | `osint-researcher`, `image-geolocation`, `social-media-investigator`, `web-archiver` | `osint-sources` tool map; `scripts/archive.sh` saves a page, hashes it, requests a Wayback snapshot |
-| `pt-public-records` | `diario-republica-researcher`, `court-records-pt`, `procurement-watchdog`, `transparency-registers` | `/pt-public-records:lada-request <entity> <docs>` drafts a Lei 26/2016 request; `pt-sources` verified source directory |
+| `osint-toolkit` | `osint-researcher`, `image-geolocation`, `social-media-investigator`, `web-archiver` | `osint-sources` tool map; `scripts/archive.sh` saves a page, hashes it, requests a Wayback snapshot and looks up Arquivo.pt |
+| `pt-public-records` | `diario-republica-researcher`, `court-records-pt`, `procurement-watchdog`, `transparency-registers` | `/pt-public-records:lada-request <entity> <docs>` drafts a Lei 26/2016 request; `pt-sources` verified source directory with the free APIs and DGSI search URLs; `scripts/base-search.sh` queries Portal BASE contracts, announcements, entities and full contract records as JSON |
 | `fact-check` | `claim-verifier`, `source-triangulator` | `verification-standards` shared confidence scale and independence test |
 | `financial-corporate` | `corporate-structure-mapper`, `offshore-leaks-researcher` | |
 | `document-tools` | `pdf-archivist` | `scripts/pdf2md.py` cached PDF to Markdown; a hook that blocks reading PDFs directly |
@@ -46,9 +46,10 @@ Claude routes the task to `image-geolocation` from its description. To force a s
 ## Requirements
 
 - Claude Code 2.1 or later.
-- No paid APIs. Diário da República, Portal BASE, DGSI, Publicações MJ, Wayback Machine, OpenCorporates, ICIJ Offshore Leaks, OpenSanctions and the rest are free. OCCRP Aleph needs a free account. RCBE (beneficial ownership) requires the reporter to log in with Cartão de Cidadão and state a legitimate interest, which investigative journalists have under EU law.
+- No API keys and no paid services. Every source in the plugins was fetched and checked on 2026-09-12; `scripts/check-sources.sh` re-checks them. Free JSON endpoints used directly: Portal BASE (via `base-search.sh`), dados.gov.pt, INE, Eurostat, Banco de Portugal BPstat, TED, SNS Transparência, GLEIF, Wikidata, geoapi.pt, Wayback CDX, Arquivo.pt, Open-Meteo, urlscan, OpenSky, EU Sanctions Map. Some sites (Diário da República, Publicações MJ, OpenCorporates, ICIJ search, Mais Transparência) are JavaScript apps or block automated fetches: the agents know to use the Claude in Chrome browser tools for those. OCCRP Aleph needs a free account. RCBE (beneficial ownership) requires the reporter to log in with Cartão de Cidadão and state a legitimate interest, which investigative journalists have under EU law.
 - `document-tools`: Python 3; the script installs `pymupdf4llm` on first use. For scanned PDFs install `ocrmypdf` (`brew install ocrmypdf`).
-- `newsroom-graphics`: Node 18+ for `render-check.mjs` (installs `jsdom` into the plugin data directory on first run); Python with `geopandas` and `pyogrio` for `geo-prep.py`, plus `mapshaper` (`npm i -g mapshaper`) for topology-preserving simplification. Graphics themselves are standalone HTML loading only pinned D3 from jsdelivr.
+- `newsroom-graphics`: Node 18+ for `render-check.mjs` (installs `jsdom` into the plugin data directory on first run, with its own npm cache); Python with `geopandas` and `pyogrio` for `geo-prep.py`, plus `mapshaper` (`npm i -g mapshaper`) for topology-preserving simplification. Graphics themselves are standalone HTML loading only pinned D3 from jsdelivr.
+- `pt-public-records`: `curl` and `jq` for `base-search.sh`.
 - Optional: `exiftool` for image metadata, `ffmpeg` for video keyframes, `pandas` for `data-analyst` (installed into a venv in the case folder).
 
 ## Editorial guardrails
@@ -57,7 +58,7 @@ Every agent carries explicit limits: public sources only, no access behind login
 
 ## Contributing
 
-Agents are Markdown files with YAML frontmatter under `plugins/<plugin>/agents/`; shared knowledge and commands are `plugins/<plugin>/skills/<name>/SKILL.md`. See `CLAUDE.md` for the conventions. Run `scripts/check.sh` before opening a pull request. Investigation working files (`investigations/`, `docs_cache/`, PDFs) are gitignored; keep case material out of this repo.
+Agents are Markdown files with YAML frontmatter under `plugins/<plugin>/agents/`; shared knowledge and commands are `plugins/<plugin>/skills/<name>/SKILL.md`. See `CLAUDE.md` for the conventions. Run `scripts/check.sh` before opening a pull request, and `scripts/check-sources.sh` when you touch a source URL. Investigation working files (`investigations/`, `docs_cache/`, PDFs) are gitignored; keep case material out of this repo.
 
 ## License
 

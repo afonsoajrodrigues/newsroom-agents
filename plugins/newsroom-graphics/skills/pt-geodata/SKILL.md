@@ -13,7 +13,7 @@ Carta Administrativa Oficial de Portugal, Direção-Geral do Território, CC BY 
 - Mainland: https://geo2.dgterritorio.gov.pt/caop/CAOP_Continente_2025-gpkg.zip
 - Azores: https://geo2.dgterritorio.gov.pt/caop/CAOP_RAA_2025-gpkg.zip
 - Madeira: https://geo2.dgterritorio.gov.pt/caop/CAOP_RAM_2025-gpkg.zip
-Landing page and older editions: https://www.dgterritorio.gov.pt/cartografia/cartografia-tematica/caop; also on https://dados.gov.pt (search "CAOP").
+Landing page and older editions: https://www.dgterritorio.gov.pt/atividades/cartografia/cartografia-tematica/caop; also on https://dados.gov.pt (search "CAOP") and the SNIG geoportal https://snig.dgterritorio.gov.pt.
 
 Layers are prefixed by region (`ram_`, `raa_`, `cont_`): `<prefix>_distritos`, `<prefix>_municipios`, `<prefix>_freguesias`, `<prefix>_nuts1/2/3`, `<prefix>_areas_administrativas` (attribute table). List them with `pyogrio.list_layers(path)`.
 
@@ -31,7 +31,8 @@ Sizes: mainland parishes are heavy (tens of MB). Simplify for the web: municipal
 - OpenStreetMap for streets, buildings and points of interest (ODbL, attribute "© OpenStreetMap contributors"); Overpass API for extracts; never bulk-download without need.
 
 ## Statistics to join
-- INE (ine.pt) publishes municipal indicators keyed by DICO code; census 2021 by parish. Pordata mirrors many series with municipality names; prefer INE codes.
+- INE (ine.pt) publishes municipal indicators keyed by DICO code; JSON API `https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=<code>&lang=PT` (no key); census 2021 by parish at censos.ine.pt; ready-made thematic maps at mapas.ine.pt. Pordata mirrors many series with municipality names; prefer INE codes.
+- geoapi.pt (`https://json.geoapi.pt/municipios`, `/municipio/<name>`, `/cp/<postal code>`, `/gps/<lat>,<lon>`) maps names, postal codes and coordinates to official municipality and parish codes; no key.
 - Portal BASE contracts have the contracting entity's municipality in the entity record, not always as a code: geocode via the entity's registered municipality name against `municipio`, then verify by hand.
 - Eurostat regional data by NUTS code.
 

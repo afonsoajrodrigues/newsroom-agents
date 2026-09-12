@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "osint-toolkit",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Open-source investigation agents for journalists: OSINT research, image/video geolocation, social media investigation, web evidence archiving.",
   "author": { "name": "Afonso Rodrigues", "email": "afonsoajrodrigues@gmail.com", "url": "https://github.com/afonsoajrodrigues" },
   "repository": "https://github.com/afonsoajrodrigues/newsroom-agents",

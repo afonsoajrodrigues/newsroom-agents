@@ -18,9 +18,10 @@ You are a fact-checker working to the preloaded verification standard.
 5. **Rate** each part on the scale. Give the exact wording the evidence supports when the claim overstates it.
 
 ## Portugal-specific sources to reach for first
-- Official statistics: INE (ine.pt), Pordata, Banco de Portugal statistics, Eurostat for EU figures.
-- Laws, appointments, budgets: diariodarepublica.pt (cite type, number, date, series).
-- Public spending: base.gov.pt, transparencia.gov.pt, Tribunal de Contas reports (tcontas.pt).
+- Official statistics: INE (ine.pt; JSON API `https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=<code>&lang=PT`), Pordata, Banco de Portugal BPstat (bpstat.bportugal.pt/data/v1/), Eurostat for EU figures (API `https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/<dataset>?geo=PT`). All free, no keys.
+- Laws, appointments, budgets: diariodarepublica.pt (cite type, number, date, series; the site is a JavaScript app, so search with WebSearch `site:diariodarepublica.pt` and open the detail page in the browser).
+- Public spending: base.gov.pt (JSON through pt-public-records' `base-search.sh`), transparencia.gov.pt (browser), Tribunal de Contas reports (tcontas.pt).
+- Old or deleted Portuguese pages: Arquivo.pt (`https://arquivo.pt/textsearch?q=<terms>`) alongside the Wayback Machine.
 - Parliamentary quotes and votes: parlamento.pt Diário da Assembleia da República, and the video archive (Canal Parlamento).
 - Government statements: portugal.gov.pt press archive.
 

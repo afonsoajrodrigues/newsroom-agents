@@ -3,7 +3,7 @@
 // Needs jsdom: first run installs it into $CLAUDE_PLUGIN_DATA (or ./node_modules if present).
 import { createRequire } from "node:module";
 import { execSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -22,7 +22,10 @@ const tryLoad = () => {
 if (!tryLoad()) {
   console.error(`installing jsdom into ${dataDir} (one time)…`);
   try {
-    execSync(`mkdir -p "${dataDir}" && cd "${dataDir}" && npm init -y >/dev/null && npm install --no-audit --no-fund jsdom`, { stdio: "inherit" });
+    // npm init rejects dot-directories as package names, so write the manifest by hand
+    mkdirSync(dataDir, { recursive: true });
+    if (!existsSync(resolve(dataDir, "package.json"))) writeFileSync(resolve(dataDir, "package.json"), '{"name":"render-check","private":true}\n');
+    execSync(`npm install --no-audit --no-fund --cache "${resolve(dataDir, ".npm-cache")}" jsdom`, { cwd: dataDir, stdio: "inherit" }); // own cache: a root-owned ~/.npm must not break the check
   } catch {}
   if (!tryLoad()) {
     console.error(`could not install jsdom automatically. Run: npm install jsdom (in the project, or in ${dataDir}) and re-run.`);
@@ -71,7 +74,7 @@ const checks = [
   ["no dual y-axis", (d.querySelectorAll(".y-axis, [class*='y-axis']").length) <= 1],
   ["reduced motion respected", /prefers-reduced-motion/.test(html)],
 ];
-if (svgOut && q("svg")) { (await import("node:fs")).writeFileSync(svgOut, q("svg").outerHTML); console.log(`svg written to ${svgOut}`); }
+if (svgOut && q("svg")) { writeFileSync(svgOut, q("svg").outerHTML); console.log(`svg written to ${svgOut}`); }
 let fail = 0;
 for (const [name, ok, detail] of checks) {
   console.log(`${ok ? "PASS" : "FAIL"}  ${name}${!ok && detail ? " — " + detail : ""}`);

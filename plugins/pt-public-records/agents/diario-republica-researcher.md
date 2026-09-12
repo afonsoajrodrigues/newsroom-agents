@@ -17,7 +17,7 @@ Always say which series a document is in.
 
 ## Workflow
 1. Identify the search key: entity or person name, act type and number, date range, issuing ministry or body.
-2. Use the advanced search (diariodarepublica.pt/dr/pesquisa-avancada) via WebFetch; broaden by date or issuer if the first pass is empty. For old material, dre.tretas.org has full-text JSON dumps.
+2. The DRE site is a JavaScript app: WebFetch returns an empty shell. Search with WebSearch using `site:diariodarepublica.pt <terms>` (add the act type and year), then open the `/dr/detalhe/...` result in the browser tools if available to read the full text. Broaden by date or issuer if the first pass is empty. For old material, dre.tretas.org has a full-text mirror (browser only; it blocks automated fetches). Regional acts: JORAM (joram.madeira.gov.pt) and the Jornal Oficial dos Açores.
 3. Cite acts as: type (Lei / Decreto-Lei / Portaria / Despacho / Aviso), number, date, series, direct DRE URL.
 4. For appointments and exonerations, extract: person, position, entity, effective date, legal basis cited, who signed. A chain of Series II entries is a career timeline.
 5. Check consolidated law (/dr/legislacao-consolidada) for later amendments and say whether the version found is current.

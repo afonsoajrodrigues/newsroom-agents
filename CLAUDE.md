@@ -13,6 +13,6 @@ Claude Code plugin marketplace for investigative journalism. Seven plugins under
 - Descriptions start with what the agent does, then "Use proactively when ...", then "Triggers on ..." with the phrases a reporter would actually type. Claude routes on these.
 - Every agent ends with a Limits or Hard limits section. Keep them; they are the editorial guardrails.
 - Preload a skill into an agent only from the same plugin (`skills:` list), so each plugin installs alone.
-- Sources are cited as direct document URLs with access dates. Verify a URL is live before adding it to `pt-sources`.
+- Sources are cited as direct document URLs with access dates. Verify a URL is live before adding it to `pt-sources` or `osint-sources` (`scripts/check-sources.sh` fetches every cited URL; mark sites that block curl as `browser`). Prefer sources with a free, keyless endpoint and record the exact query URL or the script that reaches it.
 - Graphics templates in `plugins/newsroom-graphics/skills/new-graphic/` must keep passing `scripts/render-check.mjs`; `scripts/check.sh` runs it when Node is present.
-- Run `scripts/check.sh` before committing.
+- Run `scripts/check.sh` before committing; `scripts/check-sources.sh` when source URLs change.
