@@ -2,14 +2,83 @@
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "newsroom-agents",
   "version": "2.0.0",
-  "description": "Claude Code plugins for investigative journalism: investigation orchestration, OSINT, Portuguese public records, fact-checking, corporate/financial research, and document processing.",
-  "owner": { "name": "Afonso Rodrigues", "email": "afonsoajrodrigues@gmail.com", "url": "https://github.com/afonsoajrodrigues" },
+  "description": "Claude Code plugins for investigative journalism: investigation orchestration, charts and maps, OSINT, Portuguese public records, fact-checking, corporate/financial research, and document processing.",
+  "owner": {
+    "name": "Afonso Rodrigues",
+    "email": "afonsoajrodrigues@gmail.com",
+    "url": "https://github.com/afonsoajrodrigues"
+  },
   "plugins": [
-    { "name": "newsroom-core", "source": "./plugins/newsroom-core", "description": "Investigation orchestrator, evidence log, timeline builder, data analysis and pre-publication review.", "category": "research", "tags": ["journalism", "investigation"] },
-    { "name": "osint-toolkit", "source": "./plugins/osint-toolkit", "description": "OSINT research, image/video geolocation, social media investigation, web evidence archiving.", "category": "research", "tags": ["journalism", "osint"] },
-    { "name": "pt-public-records", "source": "./plugins/pt-public-records", "description": "Portuguese public records: Diario da Republica, courts, Portal BASE, transparency registers, LADA requests.", "category": "research", "tags": ["journalism", "portugal"] },
-    { "name": "fact-check", "source": "./plugins/fact-check", "description": "Claim verification and source triangulation with a shared verification standard.", "category": "research", "tags": ["journalism", "fact-check"] },
-    { "name": "financial-corporate", "source": "./plugins/financial-corporate", "description": "Corporate ownership mapping and offshore/leaks/sanctions research.", "category": "research", "tags": ["journalism", "finance"] },
-    { "name": "document-tools", "source": "./plugins/document-tools", "description": "PDF-to-Markdown pipeline with a hook that blocks reading PDFs directly.", "category": "productivity", "tags": ["pdf", "documents"] }
+    {
+      "name": "newsroom-core",
+      "source": "./plugins/newsroom-core",
+      "description": "Investigation orchestrator, evidence log, timeline builder, data analysis and pre-publication review.",
+      "category": "research",
+      "tags": [
+        "journalism",
+        "investigation"
+      ]
+    },
+    {
+      "name": "newsroom-graphics",
+      "source": "./plugins/newsroom-graphics",
+      "description": "Graphics desk: D3 interactive charts, choropleth and locator maps with Portuguese geodata (CAOP), graphics review, validated palette.",
+      "category": "research",
+      "tags": [
+        "journalism",
+        "dataviz",
+        "maps"
+      ]
+    },
+    {
+      "name": "osint-toolkit",
+      "source": "./plugins/osint-toolkit",
+      "description": "OSINT research, image/video geolocation, social media investigation, web evidence archiving.",
+      "category": "research",
+      "tags": [
+        "journalism",
+        "osint"
+      ]
+    },
+    {
+      "name": "pt-public-records",
+      "source": "./plugins/pt-public-records",
+      "description": "Portuguese public records: Diario da Republica, courts, Portal BASE, transparency registers, LADA requests.",
+      "category": "research",
+      "tags": [
+        "journalism",
+        "portugal"
+      ]
+    },
+    {
+      "name": "fact-check",
+      "source": "./plugins/fact-check",
+      "description": "Claim verification and source triangulation with a shared verification standard.",
+      "category": "research",
+      "tags": [
+        "journalism",
+        "fact-check"
+      ]
+    },
+    {
+      "name": "financial-corporate",
+      "source": "./plugins/financial-corporate",
+      "description": "Corporate ownership mapping and offshore/leaks/sanctions research.",
+      "category": "research",
+      "tags": [
+        "journalism",
+        "finance"
+      ]
+    },
+    {
+      "name": "document-tools",
+      "source": "./plugins/document-tools",
+      "description": "PDF-to-Markdown pipeline with a hook that blocks reading PDFs directly.",
+      "category": "productivity",
+      "tags": [
+        "pdf",
+        "documents"
+      ]
+    }
   ]
 }

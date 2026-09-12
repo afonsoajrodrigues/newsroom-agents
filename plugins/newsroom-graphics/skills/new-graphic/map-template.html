@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taxa de desemprego mais alta no interior e nas ilhas</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+<style>
+  :root { color-scheme: light dark; --surface: #fcfcfb; --text: #0b0b0b; --text-2: #52514e; --grid: #e6e5e1; --nodata: #d9d8d3; --stroke: #ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --surface: #1a1a19; --text: #fff; --text-2: #c3c2b7; --grid: #333331; --nodata: #3a3a38; --stroke: #1a1a19; } }
+  :root[data-theme="dark"] { --surface: #1a1a19; --text: #fff; --text-2: #c3c2b7; --grid: #333331; --nodata: #3a3a38; --stroke: #1a1a19; }
+  body { margin: 0; background: var(--surface); color: var(--text); font: 15px/1.4 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .graphic { max-width: 720px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 1.25rem; line-height: 1.25; margin: 0 0 4px; } .subtitle { color: var(--text-2); margin: 0 0 12px; }
+  figure { margin: 0; } svg { width: 100%; height: auto; display: block; }
+  .area { stroke: var(--stroke); stroke-width: .5; } .area:hover, .area:focus { stroke: var(--text); stroke-width: 1.2; outline: none; }
+  .inset-frame { fill: none; stroke: var(--grid); } .label { fill: var(--text-2); font-size: 11px; }
+  .legend text { fill: var(--text-2); font-size: 11px; }
+  .tooltip { position: fixed; pointer-events: none; background: var(--text); color: var(--surface); padding: 6px 8px; border-radius: 4px; font-size: 12px; opacity: 0; transition: opacity .1s; }
+  .source { color: var(--text-2); font-size: 12px; margin-top: 8px; }
+  details { margin-top: 8px; font-size: 13px; } table { border-collapse: collapse; width: 100%; } td, th { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--grid); } .num { text-align: right; font-variant-numeric: tabular-nums; }
+  @media (prefers-reduced-motion: no-preference) { .area { transition: fill .2s; } }
+</style>
+</head>
+<body>
+<div class="graphic">
+  <h1>Taxa de desemprego mais alta no interior e nas ilhas</h1>
+  <p class="subtitle">Percentagem da população ativa desempregada por concelho, 2024</p>
+  <figure role="img" aria-label="Mapa coroplético de Portugal por concelho: as taxas mais altas concentram-se no interior e nas regiões autónomas; os valores variam entre 3 e 12 por cento.">
+    <svg id="map"></svg>
+    <figcaption class="source">Fonte: INE, extraído em 2026-09-12; limites: CAOP 2025 (DGT), CC BY 4.0. Análise: Redação.</figcaption>
+  </figure>
+  <details><summary>Ver os dados em tabela</summary><table><thead><tr><th>Concelho</th><th class="num">%</th></tr></thead><tbody id="table"></tbody></table></details>
+</div>
+<div class="tooltip" id="tip"></div>
+<script>
+// ---- configuration ----
+const BOUNDARIES = "data/boundaries.json";     // TopoJSON from scripts/geo-prep.py
+const CODE = "dtmn", NAME = "municipio";       // join key and label fields kept by geo-prep
+const VALUES = [                               // replace: { code, value } keyed by the same code
+  { code: "3101", value: 5.2 }, { code: "3102", value: 7.9 }, { code: "3103", value: 4.1 },
+];
+const BREAKS = [4, 6, 8, 10];                  // class breaks, printed in the legend
+const RAMP = ["#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#1c5cab"];
+const UNIT = " %";
+const pt = d3.formatLocale({ decimal: ",", thousands: " ", grouping: [3], currency: ["", " €"] });
+const fmt = v => pt.format(",.1f")(v) + UNIT;
+const color = d3.scaleThreshold().domain(BREAKS).range(RAMP);
+const byCode = new Map(VALUES.map(d => [String(d.code), d.value]));
+
+const svg = d3.select("#map"), tip = d3.select("#tip");
+d3.json(BOUNDARIES).then(topo => {
+  const layer = Object.keys(topo.objects)[0];
+  const fc = topojson.feature(topo, topo.objects[layer]);
+  fc.features.sort((a, b) => d3.ascending(a.properties[NAME], b.properties[NAME]));
+  d3.select("#table").selectAll("tr").data(fc.features).join("tr")
+    .html(d => `<td>${d.properties[NAME]}</td><td class="num">${byCode.has(String(d.properties[CODE])) ? pt.format(",.1f")(byCode.get(String(d.properties[CODE]))) : "sem dados"}</td>`);
+  draw(fc);
+  new ResizeObserver(() => draw(fc)).observe(svg.node().parentNode);
+});
+
+function draw(fc) {
+  const width = Math.max(320, svg.node().parentNode.clientWidth || 640), height = Math.round(width * 0.9);
+  svg.attr("viewBox", `0 0 ${width} ${height}`).selectAll("*").remove();
+  // ponytail: single fitted projection. For all of Portugal, split features by distrito_ilha into mainland + Azores + Madeira insets, each with its own fitExtent.
+  const projection = d3.geoMercator().fitExtent([[8, 8], [width - 8, height - 56]], fc);
+  const path = d3.geoPath(projection);
+  svg.append("g").selectAll("path").data(fc.features).join("path").attr("class", "area").attr("d", path)
+    .attr("fill", d => byCode.has(String(d.properties[CODE])) ? color(byCode.get(String(d.properties[CODE]))) : "var(--nodata)")
+    .attr("tabindex", 0).attr("aria-label", d => `${d.properties[NAME]}: ${byCode.has(String(d.properties[CODE])) ? fmt(byCode.get(String(d.properties[CODE]))) : "sem dados"}`)
+    .on("mousemove", (ev, d) => show(ev, d)).on("focus", (ev, d) => show({ clientX: 20, clientY: 20 }, d)).on("mouseleave blur", () => tip.style("opacity", 0));
+  // legend with printed breaks
+  const lg = svg.append("g").attr("class", "legend").attr("transform", `translate(8,${height - 40})`);
+  const w = Math.min(60, (width - 16) / (RAMP.length + 1));
+  lg.selectAll("rect").data(RAMP).join("rect").attr("x", (d, i) => i * w).attr("width", w - 2).attr("height", 10).attr("fill", d => d);
+  lg.selectAll("text.b").data(BREAKS).join("text").attr("class", "b").attr("x", (d, i) => (i + 1) * w - 1).attr("y", 24).attr("text-anchor", "middle").text(d => pt.format(",.0f")(d));
+  lg.append("rect").attr("x", (RAMP.length + 0.3) * w).attr("width", w - 2).attr("height", 10).attr("fill", "var(--nodata)");
+  lg.append("text").attr("x", (RAMP.length + 0.3) * w + (w - 2) / 2).attr("y", 24).attr("text-anchor", "middle").text("sem dados");
+  lg.append("text").attr("x", 0).attr("y", -4).text("Taxa de desemprego (%)");
+  window.parent?.postMessage({ type: "graphic-height", height: document.body.scrollHeight }, "*");
+}
+function show(ev, d) {
+  const v = byCode.get(String(d.properties[CODE]));
+  tip.style("opacity", 1).html(`<strong>${d.properties[NAME]}</strong><br>${v == null ? "sem dados" : fmt(v)}`)
+    .style("left", (ev.clientX ?? 0) + 12 + "px").style("top", (ev.clientY ?? 0) + 12 + "px");
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape") tip.style("opacity", 0); });
+</script>
+</body>
+</html>

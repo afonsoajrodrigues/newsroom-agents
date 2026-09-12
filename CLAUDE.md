@@ -1,6 +1,6 @@
 # newsroom-agents
 
-Claude Code plugin marketplace for investigative journalism. Six plugins under `plugins/`, each self-contained.
+Claude Code plugin marketplace for investigative journalism. Seven plugins under `plugins/`, each self-contained.
 
 ## Layout per plugin
 - `.claude-plugin/plugin.json` manifest
@@ -14,4 +14,5 @@ Claude Code plugin marketplace for investigative journalism. Six plugins under `
 - Every agent ends with a Limits or Hard limits section. Keep them; they are the editorial guardrails.
 - Preload a skill into an agent only from the same plugin (`skills:` list), so each plugin installs alone.
 - Sources are cited as direct document URLs with access dates. Verify a URL is live before adding it to `pt-sources`.
+- Graphics templates in `plugins/newsroom-graphics/skills/new-graphic/` must keep passing `scripts/render-check.mjs`; `scripts/check.sh` runs it when Node is present.
 - Run `scripts/check.sh` before committing.
