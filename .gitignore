@@ -1,0 +1,7 @@
+# investigation working files never belong in this repo
+docs_cache/
+investigations/
+*.pdf
+.DS_Store
+.venv/
+__pycache__/

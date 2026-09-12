@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "document-tools",
+  "version": "2.0.0",
+  "description": "PDF-to-Markdown pipeline with a hook that blocks reading PDFs directly, keeping large document sets cheap to work with.",
+  "author": { "name": "Afonso Rodrigues", "email": "afonsoajrodrigues@gmail.com", "url": "https://github.com/afonsoajrodrigues" },
+  "repository": "https://github.com/afonsoajrodrigues/newsroom-agents",
+  "license": "MIT",
+  "keywords": ["pdf", "documents", "ocr", "markdown"]
+}

@@ -1,0 +1,13 @@
+{
+  "description": "Blocks reading PDF files directly so they always go through the cached Markdown pipeline.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/block-pdf-read.sh\"", "timeout": 5 }
+        ]
+      }
+    ]
+  }
+}
